@@ -32,20 +32,17 @@ class PincodeViewModel(
     }
 
     fun onPincodeTextChanged(char: String) {
-        if (inputEnabled)
+        val newStr = _state.value.pincode + char
+        if (inputEnabled) {
+            if (pincode == newStr)
+                navigator.navigateToHome()
             _state.update {
-                if (it.pincode.length < PINCODE_LENGTH) {
-                    val newStr = _state.value.pincode + char
-                    it.copy(
-                        pincode = newStr,
-                        saveBtnEnabled = (newStr.length >= PINCODE_LENGTH && pincode == null)
-                    )
-                } else {
-                    if (pincode == it.pincode)
-                        navigator.navigateToHome()
-                    it
-                }
+                it.copy(
+                    pincode = if (newStr.length <= PINCODE_LENGTH) newStr else it.pincode,
+                    saveBtnEnabled = newStr.length >= PINCODE_LENGTH && this@PincodeViewModel.pincode == null
+                )
             }
+        }
     }
 
     fun onBackspaceClick() {
@@ -64,6 +61,7 @@ class PincodeViewModel(
             }
         }
     }
+
     fun onSpeakerClick() {
         speaker.speak("что что что что")
     }
