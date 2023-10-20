@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "com.turtleteam.impl"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -39,6 +39,7 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:speaker:api"))
     implementation(project(":feature:account:api"))
     implementation(project(":feature:home:api"))
     implementation(project(Modules.core_navigation))

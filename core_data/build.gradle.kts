@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.turtleteam.core_network"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24

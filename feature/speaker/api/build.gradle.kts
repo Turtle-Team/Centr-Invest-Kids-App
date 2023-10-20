@@ -4,8 +4,8 @@ plugins {
 }
 
 android {
-    namespace = "com.turtleteam.core_view"
-    compileSdk = 34
+    namespace = "com.turtleteam.api"
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 26
@@ -23,9 +23,6 @@ android {
             )
         }
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -33,12 +30,14 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures.compose = true
 }
 
 dependencies {
 
-    implementation(Dependencies.JetpackCompose.material)
-    implementation(Dependencies.JetpackCompose.ui)
-    implementation(Dependencies.JetpackCompose.uiToolingPreview)
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.10.0")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

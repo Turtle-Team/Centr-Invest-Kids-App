@@ -68,6 +68,9 @@ dependencies {
     implementation(project(":feature:settings:api"))
     implementation(project(":feature:settings:impl"))
 
+    implementation(project(":feature:speaker:api"))
+    implementation(project(":feature:speaker:impl"))
+
     implementation(Dependencies.Data.ktorClient)
     implementation(Dependencies.JetpackCompose.runtime)
     implementation(Dependencies.JetpackCompose.navigation)

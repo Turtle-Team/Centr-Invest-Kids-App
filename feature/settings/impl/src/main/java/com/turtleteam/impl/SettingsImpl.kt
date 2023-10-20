@@ -18,6 +18,7 @@ class SettingsImpl(private val context: Context) : Settings {
     companion object {
         private val THEME_KEY = booleanPreferencesKey("isDarkTheme")
         private val TOKEN_KEY = stringPreferencesKey("token")
+        private val PINCODE_KEY = stringPreferencesKey("pincode")
         private const val DATASTORE_NAME = "settings"
     }
 
@@ -33,6 +34,12 @@ class SettingsImpl(private val context: Context) : Settings {
             if (value.isNullOrBlank()) null else value
         }
     }
+    private val pincode by lazy {
+        context.dataStore.data.map {
+            val value = it[PINCODE_KEY]
+            if (value.isNullOrBlank()) null else value
+        }
+    }
 
     override suspend fun setTheme(value: Boolean) {
         context.dataStore.edit { settings ->
@@ -44,6 +51,16 @@ class SettingsImpl(private val context: Context) : Settings {
         context.dataStore.edit { settings ->
             settings[TOKEN_KEY] = token ?: ""
         }
+    }
+
+    override suspend fun setPincode(pincode: String?) {
+        context.dataStore.edit { settings ->
+            settings[PINCODE_KEY] = pincode ?: ""
+        }
+    }
+
+    override suspend fun getPincode(): String? {
+        return pincode.first()
     }
 
     override suspend fun getToken(): String? {

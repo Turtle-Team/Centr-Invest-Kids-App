@@ -43,3 +43,8 @@ include ':feature:profile:impl'
 include(":feature:settings")
 include ':feature:settings:api'
 include ':feature:settings:impl'
+
+//Speaker
+include(":feature:speaker")
+include ':feature:speaker:api'
+include ':feature:speaker:impl'

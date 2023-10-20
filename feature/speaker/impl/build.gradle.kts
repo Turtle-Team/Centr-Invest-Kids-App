@@ -4,8 +4,8 @@ plugins {
 }
 
 android {
-    namespace = "com.turtleteam.core_view"
-    compileSdk = 34
+    namespace = "com.turtleteam.impl"
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 26
@@ -23,9 +23,6 @@ android {
             )
         }
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -33,12 +30,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures.compose = true
 }
 
 dependencies {
-
-    implementation(Dependencies.JetpackCompose.material)
-    implementation(Dependencies.JetpackCompose.ui)
-    implementation(Dependencies.JetpackCompose.uiToolingPreview)
+    implementation(project(":feature:speaker:api"))
 }

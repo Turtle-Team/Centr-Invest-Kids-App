@@ -6,11 +6,9 @@ import com.turtleteam.api.navigation.HomeNavigation
 import com.turtleteam.core_navigation.BaseNavigator
 
 class AccountNavigator(
-    private val accountNavigation: AccountNavigation,
+    private val homeNavigation: HomeNavigation,
     private val navController: NavController
 ) : BaseNavigator(navController) {
-
-    private val baseRoute = accountNavigation.baseRoute
 
     fun navigateToAuth() {
         navController.navigate(authRoute) {
@@ -23,8 +21,16 @@ class AccountNavigator(
             launchSingleTop = true
         }
     }
+    fun navigateToPincode() {
+        navController.navigate(PINcodeRoute) {
+            popUpTo(0){
+                inclusive = true
+            }
+            launchSingleTop = true
+        }
+    }
     fun navigateToHome() {
-        navController.navigate(registerRoute) {
+        navController.navigate(homeNavigation.baseRoute) {
             popUpTo(0){
                 inclusive = true
             }
