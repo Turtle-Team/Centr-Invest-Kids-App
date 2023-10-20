@@ -4,11 +4,12 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,13 +34,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -49,19 +50,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.api.data.api.model.UserDTOReceive
-import com.turtleteam.core_navigation.error.ErrorService
 import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
 import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
-import kotlinx.coroutines.launch
-import org.koin.androidx.compose.get
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
-    viewModel: RegisterViewModel,
-    errorService: ErrorService = get()
+    viewModel: RegisterViewModel
 ) {
 
     val state = viewModel.state.collectAsState()
@@ -73,35 +70,40 @@ fun RegisterScreen(
 
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-    val scope = rememberCoroutineScope()
 
-    LazyColumn(
-        Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        item {
-            LargeTopAppBar(
-                title = { Text(text = "Регистрация") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFF3EDF7)
-                ),//TODO fix hardcode
-                navigationIcon = {
-                    IconButton(onClick = { viewModel.onBackButtonClick() }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_back),
-                            contentDescription = null
-                        )
+    Column {
+        LargeTopAppBar(
+            title = { Text(text = "Регистрация") },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Color(0xFFF3EDF7)
+            ),//TODO fix hardcode
+            navigationIcon = {
+                IconButton(onClick = { viewModel.onBackButtonClick() }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_back),
+                        contentDescription = null
+                    )
+                }
+            },
+            scrollBehavior = scrollBehavior
+        )
+
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .pointerInput(Unit) {
+                    detectTapGestures {
+                        focusManager.clearFocus()
                     }
                 },
-                scrollBehavior = scrollBehavior
-            )
-        }
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 40.dp)
+        ) {
 
-        item {
-            Column(Modifier.padding(horizontal = 16.dp)) {
+            item {
                 OutlinedTextField(
                     value = state.value.loginText,
                     singleLine = true,
@@ -114,9 +116,9 @@ fun RegisterScreen(
                     placeholder = { Text("Введите логин") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 24.dp)
                 )
-
+            }
+            item {
                 OutlinedTextField(
                     value = state.value.firstNameText,
                     singleLine = true,
@@ -129,8 +131,9 @@ fun RegisterScreen(
                     placeholder = { Text("Введите имя") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 24.dp)
                 )
+            }
+            item {
 
                 OutlinedTextField(
                     value = state.value.lastNameText,
@@ -144,9 +147,9 @@ fun RegisterScreen(
                     placeholder = { Text("Введите фамилию") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 24.dp)
                 )
-
+            }
+            item {
                 OutlinedTextField(
                     value = state.value.emailText,
                     singleLine = true,
@@ -159,8 +162,9 @@ fun RegisterScreen(
                     placeholder = { Text("Введите почту") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 24.dp)
                 )
+            }
+            item {
 
                 OutlinedTextField(
                     value = state.value.passwordText,
@@ -185,13 +189,13 @@ fun RegisterScreen(
                     placeholder = { Text("Введите пароль") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 24.dp)
                 )
-
+            }
+            item {
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .padding(top = 36.dp),
+                        .padding(top = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -225,7 +229,6 @@ fun RegisterScreen(
                                 state.value.passwordText == ""
                             ) {
                                 isError = true
-                                scope.launch { errorService.showError("Зполните все поля") }
                             } else {
                                 viewModel.onRegisterClick(
                                     UserDTOReceive(
@@ -242,7 +245,6 @@ fun RegisterScreen(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.padding(top = 24.dp))
             }
         }
     }

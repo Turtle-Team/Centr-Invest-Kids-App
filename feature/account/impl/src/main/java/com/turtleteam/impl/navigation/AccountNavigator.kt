@@ -23,4 +23,12 @@ class AccountNavigator(
             launchSingleTop = true
         }
     }
+    fun navigateToHome() {
+        navController.navigate(registerRoute) {
+            popUpTo(0){
+                inclusive = true
+            }
+            launchSingleTop = true
+        }
+    }
 }

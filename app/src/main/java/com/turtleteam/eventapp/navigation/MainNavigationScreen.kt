@@ -11,12 +11,14 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.turtleteam.api.Settings
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.EventNavigation
 import com.turtleteam.api.navigation.HomeNavigation
@@ -35,7 +37,8 @@ import org.koin.compose.koinInject
 @Composable
 fun MainNavigationScreen(
     navController: NavHostController,
-    errorService: ErrorService = get()
+    errorService: ErrorService = koinInject(),
+    settings: Settings = koinInject()
 ) {
 
     val homeFeature: HomeNavigation = koinInject()
@@ -46,6 +49,16 @@ fun MainNavigationScreen(
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    LaunchedEffect(key1 = Unit, block = {
+        if (settings.getToken() == null)
+            navController.navigate(accountFeature.baseRoute){
+                popUpTo(0){
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+    })
 
     val bottomNavigationItems = listOf(
         NavigationItem(
