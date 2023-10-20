@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -24,18 +26,13 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -64,18 +61,14 @@ fun RegisterScreen(
     val state = viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
 
-    var passwordHidden by rememberSaveable { mutableStateOf(true) }
-    var checkedState by remember { mutableStateOf(false) }
-    var isError by remember { mutableStateOf(false) }
-
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
     Column {
-        LargeTopAppBar(
+        MediumTopAppBar(
             title = { Text(text = "Регистрация") },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color(0xFFF3EDF7)
+                containerColor = Color(0xFFBEFF6C)
             ),//TODO fix hardcode
             navigationIcon = {
                 IconButton(onClick = { viewModel.onBackButtonClick() }) {
@@ -94,9 +87,7 @@ fun RegisterScreen(
                 .background(Color.White)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
                 .pointerInput(Unit) {
-                    detectTapGestures {
-                        focusManager.clearFocus()
-                    }
+                    detectTapGestures { focusManager.clearFocus() }
                 },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp),
@@ -112,7 +103,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next
                     ),
-                    isError = isError,
+                    isError = state.value.loginError,
                     placeholder = { Text("Введите логин") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -127,7 +118,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next
                     ),
-                    isError = isError,
+                    isError = state.value.firstNameError,
                     placeholder = { Text("Введите имя") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -143,7 +134,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next
                     ),
-                    isError = isError,
+                    isError = state.value.lastNameError,
                     placeholder = { Text("Введите фамилию") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -158,7 +149,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Next
                     ),
-                    isError = isError,
+                    isError = state.value.emailError,
                     placeholder = { Text("Введите почту") },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -168,11 +159,11 @@ fun RegisterScreen(
 
                 OutlinedTextField(
                     value = state.value.passwordText,
-                    visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+                    visualTransformation = if (state.value.isPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
                     trailingIcon = {
-                        IconButton(onClick = { passwordHidden = !passwordHidden }) {
+                        IconButton(onClick = { viewModel.onHidePasswordClick() }) {
                             val iconPainter =
-                                painterResource(id = if (passwordHidden) R.drawable.ic_visibility else R.drawable.ic_visibility_off)
+                                painterResource(id = if (state.value.isPasswordHidden) R.drawable.ic_visibility else R.drawable.ic_visibility_off)
                             Icon(painter = iconPainter, contentDescription = null)
                         }
                     },
@@ -182,7 +173,7 @@ fun RegisterScreen(
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Done
                     ),
-                    isError = isError,
+                    isError = state.value.passwordError,
                     keyboardActions = KeyboardActions(onDone = {
                         focusManager.clearFocus()
                     }),
@@ -201,8 +192,8 @@ fun RegisterScreen(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
-                            checked = checkedState,
-                            onCheckedChange = { checkedState = it }
+                            checked = state.value.checkBoxEnabled,
+                            onCheckedChange = { viewModel.onCheckBoxClick() }
                         )
                         Text(
                             text = "Я согласен с Политикой конфиденциальности",
@@ -221,22 +212,12 @@ fun RegisterScreen(
                         modifier = Modifier.width(114.dp),
                         onClick = {
                             focusManager.clearFocus()
-                            if (
-                                state.value.loginText == "" ||
-                                state.value.firstNameText == "" ||
-                                state.value.lastNameText == "" ||
-                                state.value.emailText == "" ||
-                                state.value.passwordText == ""
-                            ) {
-                                isError = true
-                            } else {
-                                viewModel.onRegisterClick(
-                                    UserDTOReceive(
-                                        login = state.value.loginText,
-                                        password = state.value.passwordText
-                                    )
+                            viewModel.onRegisterClick(
+                                UserDTOReceive(
+                                    login = state.value.loginText,
+                                    password = state.value.passwordText
                                 )
-                            }
+                            )
                         }) {
                         if (state.value.registerLoadingState == LoadingState.Loading) {
                             CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)

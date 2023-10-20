@@ -13,7 +13,6 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.appendPathSegments
 import io.ktor.utils.io.errors.IOException
-import java.lang.Error
 
 abstract class BaseRepository(private val httpClient: HttpClient) {
 
@@ -37,9 +36,9 @@ abstract class BaseRepository(private val httpClient: HttpClient) {
                 body?.let { setBody(body) }
             }
         } catch (e: SocketTimeoutException) {
-            throw Exception(e)
+            throw e
         } catch (e: IOException) {
-            throw Exception(e)
+            throw e
         }
 
         if (response.status.value !in 200..299) {
