@@ -63,6 +63,9 @@ dependencies {
     implementation(project(":feature:profile:impl"))
 
 
+    implementation(project(":feature:assistant:api"))
+    implementation(project(":feature:assistant:impl"))
+
     implementation("androidx.compose.material:material:1.5.4")
 
     implementation(project(":feature:settings:api"))

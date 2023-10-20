@@ -20,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.turtleteam.api.Settings
 import com.turtleteam.api.navigation.AccountNavigation
+import com.turtleteam.api.navigation.AssistantNavigation
 import com.turtleteam.api.navigation.EventNavigation
 import com.turtleteam.api.navigation.HomeNavigation
 import com.turtleteam.api.navigation.ProfileNavigation
@@ -45,6 +46,7 @@ fun MainNavigationScreen(
     val eventFeature: EventNavigation = koinInject()
     val profileFeature: ProfileNavigation = koinInject()
     val accountFeature: AccountNavigation = koinInject()
+    val assistantFeature: AssistantNavigation = koinInject()
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -120,6 +122,7 @@ fun MainNavigationScreen(
             register(eventFeature, navController, bottomNavigationViewModifier)
             register(profileFeature, navController, bottomNavigationViewModifier)
             register(accountFeature, navController)
+            register(assistantFeature, navController)
         }
     }
 }

@@ -3,6 +3,7 @@ package com.turtleteam.eventapp
 import android.app.Application
 import com.turtleteam.eventapp.di.commonModule
 import com.turtleteam.eventapp.di.featureModule.accountModule
+import com.turtleteam.eventapp.di.featureModule.assistantModule
 import com.turtleteam.eventapp.di.featureModule.eventModule
 import com.turtleteam.eventapp.di.featureModule.homeModule
 import com.turtleteam.eventapp.di.featureModule.profileModule
@@ -18,8 +19,10 @@ class CentInvestApp : Application() {
         startKoin {
             androidContext(this@CentInvestApp)
             androidLogger(Level.DEBUG)
-            modules(commonModule, accountModule, homeModule, eventModule, profileModule,
-                settingsModule)
+            modules(
+                commonModule, accountModule, homeModule, eventModule, profileModule,
+                settingsModule, assistantModule
+            )
         }
     }
 }

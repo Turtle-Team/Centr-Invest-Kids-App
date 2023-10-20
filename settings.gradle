@@ -43,3 +43,8 @@ include ':feature:profile:impl'
 include(":feature:settings")
 include ':feature:settings:api'
 include ':feature:settings:impl'
+
+//Assistant
+include(":feature:assistant")
+include ':feature:assistant:api'
+include ':feature:assistant:impl'

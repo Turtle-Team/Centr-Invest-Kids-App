@@ -10,7 +10,7 @@ import org.koin.dsl.module
 val homeModule = module {
     single<HomeNavigation> { HomeNavigationImpl() }
     factory { navController ->
-        HomeNavigator(get(), get(), navController.get())
+        HomeNavigator(get(), get(), get(), navController.get())
     }
     viewModel { navigator ->
         HomeViewModel(navigator.get())

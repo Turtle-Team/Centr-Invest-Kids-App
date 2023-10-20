@@ -8,4 +8,8 @@ class HomeViewModel(private val navigator: HomeNavigator) : ViewModel() {
     fun navigateToWelcome() {
         navigator.navigateToWelcome()
     }
+
+    fun navigateToAssistant() {
+        navigator.navigateToAssistant()
+    }
 }
