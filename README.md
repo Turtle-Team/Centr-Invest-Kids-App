@@ -1,1 +1,1 @@
-# Centr-Invest-Kids-App
+# EventApp
