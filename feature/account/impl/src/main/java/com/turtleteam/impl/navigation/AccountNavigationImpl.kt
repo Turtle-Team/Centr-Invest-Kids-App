@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.impl.presentation.auth.screen.AuthScreen
+import com.turtleteam.impl.presentation.pincode.PincodeScreen
 import com.turtleteam.impl.presentation.register.screen.RegisterScreen
 import com.turtleteam.impl.presentation.welcome.screen.WelcomeScreen
 import org.koin.androidx.compose.koinViewModel
@@ -19,10 +20,12 @@ internal const val accountGraph = "account"
 internal const val welcomeRoute = "$accountGraph/welcome"
 internal const val authRoute = "$accountGraph/auth"
 internal const val registerRoute = "$accountGraph/register"
+internal const val PINcodeRoute = "pincode"
 
 class AccountNavigationImpl : AccountNavigation {
 
     override val baseRoute: String = accountGraph
+    override val pincodeRoute: String = PINcodeRoute
 
     private val animDuration = 500
 
@@ -31,6 +34,11 @@ class AccountNavigationImpl : AccountNavigation {
         navController: NavController,
         modifier: Modifier
     ) {
+        navGraphBuilder.composable(pincodeRoute){
+            val navigator =
+                koinInject<AccountNavigator>(parameters = { parametersOf(navController) })
+            PincodeScreen(viewModel = koinViewModel(parameters = { parametersOf(navigator) }))
+        }
         navGraphBuilder.navigation(startDestination = welcomeRoute, route = baseRoute) {
             composable(
                 route = welcomeRoute,

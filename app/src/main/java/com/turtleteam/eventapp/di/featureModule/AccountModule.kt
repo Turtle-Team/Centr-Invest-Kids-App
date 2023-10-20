@@ -8,6 +8,7 @@ import com.turtleteam.impl.data.api.service.AccountServiceImpl
 import com.turtleteam.impl.navigation.AccountNavigationImpl
 import com.turtleteam.impl.navigation.AccountNavigator
 import com.turtleteam.impl.presentation.auth.viewModel.AuthViewModel
+import com.turtleteam.impl.presentation.pincode.viewmodel.PincodeViewModel
 import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
 import com.turtleteam.impl.presentation.welcome.viewModel.WelcomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -20,7 +21,11 @@ val accountModule = module {
     single<AccountService> { AccountServiceImpl(get()) }
 
     factory { navController ->
-        AccountNavigator(get(), navController.get())
+        AccountNavigator(get(),navController.get())
+    }
+
+    viewModel { params ->
+        PincodeViewModel(get(),get() ,params.get())
     }
 
     viewModel { params ->

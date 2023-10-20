@@ -53,13 +53,12 @@ fun MainNavigationScreen(
     val currentRoute = navBackStackEntry?.destination?.route
 
     LaunchedEffect(key1 = Unit, block = {
-        if (settings.getToken() == null)
-            navController.navigate(accountFeature.baseRoute){
-                popUpTo(0){
-                    inclusive = true
-                }
-                launchSingleTop = true
+        navController.navigate(if (settings.getToken() == null) accountFeature.baseRoute else accountFeature.pincodeRoute) {
+            popUpTo(0) {
+                inclusive = true
             }
+            launchSingleTop = true
+        }
     })
 
     val bottomNavigationItems = listOf(

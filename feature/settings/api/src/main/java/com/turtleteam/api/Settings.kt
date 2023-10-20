@@ -8,6 +8,8 @@ interface Settings {
 
     suspend fun setTheme(value: Boolean)
     suspend fun setToken(token: String?)
+    suspend fun setPincode(pincode: String?)
 
+    suspend fun getPincode(): String?
     suspend fun getToken(): String?
 }
