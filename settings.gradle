@@ -53,3 +53,8 @@ include ':feature:assistant:impl'
 include(":feature:speaker")
 include ':feature:speaker:api'
 include ':feature:speaker:impl'
+
+//Payment
+include(":feature:payment")
+include ':feature:payment:api'
+include ':feature:payment:impl'

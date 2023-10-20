@@ -99,6 +99,7 @@ fun HomeScreen(
         LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
             items(items = cardList) { card ->
                 CardView(card = card) {
+                    viewModel.navigateToPayment()
                 }
                 Spacer(modifier = Modifier.padding(bottom = 16.dp))
             }

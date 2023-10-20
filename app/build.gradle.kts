@@ -74,6 +74,9 @@ dependencies {
     implementation(project(":feature:speaker:api"))
     implementation(project(":feature:speaker:impl"))
 
+    implementation(project(":feature:payment:api"))
+    implementation(project(":feature:payment:impl"))
+
     implementation(Dependencies.Data.ktorClient)
     implementation(Dependencies.JetpackCompose.runtime)
     implementation(Dependencies.JetpackCompose.navigation)
