@@ -120,7 +120,8 @@ fun AssistantScreen(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 20.dp, top = 10.dp),
+                .padding(bottom = 20.dp, top = 10.dp)
+                ,
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -134,6 +135,7 @@ fun AssistantScreen(
                     text.value = ""
                 }),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                onSendClick = {},
                 onMicClick = {
                     //todo
                 }

@@ -4,6 +4,7 @@ import com.turtleteam.core_navigation.error.ErrorService
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.engine.okhttp.*
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import kotlinx.serialization.json.Json
@@ -18,6 +19,9 @@ val commonModule = module {
     }
     single {
         HttpClient(OkHttp) {
+            install(HttpTimeout) {
+                socketTimeoutMillis = 30000
+            }
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {

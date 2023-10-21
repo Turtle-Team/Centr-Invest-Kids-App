@@ -48,6 +48,7 @@ fun AssistantTextField(
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    onSendClick: () -> Unit,
     onMicClick: () -> Unit
 ) {
     val shape = RoundedCornerShape(100.dp)
