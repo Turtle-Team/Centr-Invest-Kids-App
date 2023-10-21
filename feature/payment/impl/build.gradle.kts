@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "com.turtleteam.impl"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -38,14 +38,12 @@ android {
 }
 
 dependencies {
+
     implementation(project(":feature:home:api"))
-    implementation(project(":feature:account:api"))
-    implementation(project(":feature:assistant:api"))
     implementation(project(":feature:payment:api"))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
 
-    implementation("me.onebone:toolbar-compose:2.3.5")
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)

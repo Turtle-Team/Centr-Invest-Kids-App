@@ -18,6 +18,7 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.turtleteam.api.PaymentNavigation
 import com.turtleteam.api.Settings
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.AssistantNavigation
@@ -29,6 +30,7 @@ import com.turtleteam.core_navigation.error.register
 import com.turtleteam.core_view.BottomNavigationBar
 import com.turtleteam.core_view.NavigationItem
 import com.turtleteam.core_view.R
+import com.turtleteam.eventapp.di.featureModule.paymentModule
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
@@ -47,6 +49,7 @@ fun MainNavigationScreen(
     val profileFeature: ProfileNavigation = koinInject()
     val accountFeature: AccountNavigation = koinInject()
     val assistantFeature: AssistantNavigation = koinInject()
+    val paymentFeature: PaymentNavigation = koinInject()
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -122,6 +125,7 @@ fun MainNavigationScreen(
             register(profileFeature, navController, bottomNavigationViewModifier)
             register(accountFeature, navController)
             register(assistantFeature, navController)
+            register(paymentFeature, navController)
         }
     }
 }
