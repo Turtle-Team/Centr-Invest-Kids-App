@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -171,19 +172,21 @@ fun HomeScreen(
                         .size(35.dp),
                     painter = painterResource(id = drawable.ic_user_circle),
                     contentDescription = "",
-                    tint = Color(0xFF00602A)
+                    tint = Color(0xFF805C00)
                 )
                 Text(
                     modifier = Modifier.padding(start = 10.dp),
                     text = "Зубенко Михаил",
                     fontSize = 20.sp,
-                    fontWeight = FontWeight(600)
+                    fontWeight = FontWeight(600),
+                    color = Color.White
                 )
-                Icon(
-                    modifier = Modifier.offset(y = 2.dp),
-                    painter = painterResource(id = drawable.ic_arrow_right),
-                    contentDescription = "",
-                    tint = Color(0xFF00602A)
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = "1000 ₽",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight(600),
+                    color = Color.White
                 )
             }
         }) {
