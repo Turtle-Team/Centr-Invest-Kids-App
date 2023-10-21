@@ -25,11 +25,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -49,7 +47,6 @@ import com.turtleteam.core_view.view.PageIndicator
 import com.turtleteam.core_view.view.bottomSheet.OperationBottomSheet
 import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.layout.OperationView
-import com.turtleteam.impl.presentation.home.screen.component.CardView
 import com.turtleteam.impl.presentation.home.screen.component.SmallCardView
 import com.turtleteam.impl.presentation.home.screen.component.cardList
 import com.turtleteam.impl.presentation.home.viewModel.HomeViewModel
@@ -70,14 +67,13 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel
 ) {
-    val pagerState = rememberPagerState { cardList.size }
     val progress = remember { mutableFloatStateOf(0f) }
     val showBottomSheet = remember { mutableStateOf(false) }
-
     val state = viewModel.state.collectAsState()
+    val pagerState = rememberPagerState { state.value.cards?.size ?: 1 }
 
     Toast.makeText(LocalContext.current, state.value.cards.toString(), Toast.LENGTH_SHORT).show()
-
+//fixme
     val paymentVariantList = listOf(
         PaymentVariant(
             label = "По номеру телефона",
