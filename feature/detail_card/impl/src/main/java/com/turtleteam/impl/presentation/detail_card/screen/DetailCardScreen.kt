@@ -251,8 +251,8 @@ fun RequisitesView(numberCode: String, date: String, code: String) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 HiddenText(Modifier.weight(0.5f), text = code)
-                Spacer(modifier = Modifier.weight(0.25f))
-                HiddenText(Modifier.weight(0.25f), text = date)
+                Spacer(modifier = Modifier.size(10.dp))
+                HiddenText(Modifier.weight(0.5f), text = date)
             }
         }
     }
