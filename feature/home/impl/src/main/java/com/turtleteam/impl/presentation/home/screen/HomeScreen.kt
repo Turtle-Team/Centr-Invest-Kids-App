@@ -38,9 +38,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turtleteam.api.model.PaymentType
 import com.turtleteam.core_view.R.drawable
 import com.turtleteam.core_view.models.Operation
+import com.turtleteam.core_view.view.PageIndicator
 import com.turtleteam.core_view.view.bottomSheet.OperationBottomSheet
+import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.layout.OperationView
 import com.turtleteam.impl.presentation.home.screen.component.CardView
 import com.turtleteam.impl.presentation.home.screen.component.SmallCardView
