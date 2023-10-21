@@ -155,9 +155,7 @@ fun AssistantScreen(
                     text.value = ""
                 },
                 onMicClick = {
-                    kotlin.runCatching {
-                        stt.launch(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH))
-                    }
+                    kotlin.runCatching { stt.launch(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)) }
                 }
             )
         }

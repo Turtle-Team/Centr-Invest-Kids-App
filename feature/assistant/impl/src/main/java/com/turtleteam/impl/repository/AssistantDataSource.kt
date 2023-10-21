@@ -3,10 +3,7 @@ package com.turtleteam.impl.repository
 import com.turtleteam.core_network.BaseRepository
 import com.turtleteam.core_network.URL
 import io.ktor.client.HttpClient
-import io.ktor.http.HeaderValue
-import io.ktor.http.Headers
 import io.ktor.http.HttpMethod
-import io.ktor.http.headersOf
 
 class AssistantNetworkDataSource(
     client: HttpClient

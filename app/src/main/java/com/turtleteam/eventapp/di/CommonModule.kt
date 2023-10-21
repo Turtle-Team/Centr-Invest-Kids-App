@@ -20,7 +20,7 @@ val commonModule = module {
     single {
         HttpClient(OkHttp) {
             install(HttpTimeout) {
-                socketTimeoutMillis = 30000
+                socketTimeoutMillis = 60000
             }
             install(Logging) {
                 logger = object : Logger {

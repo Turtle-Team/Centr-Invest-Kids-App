@@ -6,6 +6,7 @@ import com.turtleteam.api.Speaker
 import com.turtleteam.api.data.api.repository.AssistantRepository
 import com.turtleteam.core_network.error.exceptionHandleable
 import com.turtleteam.impl.navigation.AssistantNavigator
+import com.turtleteam.impl.repository.AssistantRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,15 +23,17 @@ class AssistantViewModel(
     val state = _state.asStateFlow()
 
     init {
-        _state.update {
-            it.copy(
-                chat = listOf(
-                    Message(
-                        "Привет! Чем могу помочь?",
-                        Sender.ASSISTANT
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    chat = (rep as AssistantRepositoryImpl).getChat() ?: listOf(
+                        Message(
+                            "Привет! Чем могу помочь?",
+                            Sender.ASSISTANT
+                        )
                     )
                 )
-            )
+            }
         }
     }
 
@@ -51,6 +54,7 @@ class AssistantViewModel(
                 },
                 completionBlock = {
                     _state.update { it.copy(textFieldEnabled = true) }
+                    (rep as AssistantRepositoryImpl).setChat(_state.value.chat)
                 }
             )
         }

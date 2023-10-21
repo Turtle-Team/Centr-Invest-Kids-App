@@ -10,9 +10,10 @@ interface Settings {
     suspend fun setToken(token: String?)
     suspend fun setPincode(pincode: String?)
     suspend fun setUser(value: String?)
+    suspend fun setChat(str: String)
 
     suspend fun getPincode(): String?
     suspend fun getToken(): String?
     suspend fun getUser(): String?
-
+    suspend fun getChat(): String?
 }

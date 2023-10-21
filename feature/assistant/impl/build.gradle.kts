@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":feature:speaker:api"))
     implementation(project(":feature:home:api"))
     implementation(project(":feature:assistant:api"))
+    implementation(project(":feature:settings:api"))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
     implementation(project(Modules.core_data))

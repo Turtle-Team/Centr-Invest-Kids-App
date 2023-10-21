@@ -20,6 +20,7 @@ class SettingsImpl(private val context: Context) : Settings {
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val PINCODE_KEY = stringPreferencesKey("pincode")
         private val USER_KEY = stringPreferencesKey("user")
+        private val CHAT_KEY = stringPreferencesKey("chat")
         private const val DATASTORE_NAME = "settings"
     }
 
@@ -48,6 +49,13 @@ class SettingsImpl(private val context: Context) : Settings {
         }
     }
 
+    private val chat by lazy {
+        context.dataStore.data.map {
+            val value = it[CHAT_KEY]
+            if (value.isNullOrBlank()) null else value
+        }
+    }
+
     override suspend fun setTheme(value: Boolean) {
         context.dataStore.edit { settings ->
             settings[THEME_KEY] = value
@@ -72,6 +80,12 @@ class SettingsImpl(private val context: Context) : Settings {
         }
     }
 
+    override suspend fun setChat(str: String) {
+        context.dataStore.edit { settings ->
+            settings[CHAT_KEY] = str ?: ""
+        }
+    }
+
     override suspend fun getPincode(): String? {
         return pincode.first()
     }
@@ -82,5 +96,9 @@ class SettingsImpl(private val context: Context) : Settings {
 
     override suspend fun getUser(): String? {
         return user.first()
+    }
+
+    override suspend fun getChat(): String? {
+        return chat.first()
     }
 }

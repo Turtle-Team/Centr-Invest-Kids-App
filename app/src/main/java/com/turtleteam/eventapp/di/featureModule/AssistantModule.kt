@@ -23,7 +23,7 @@ val assistantModule = module {
     }
 
     single<AssistantRepository> {
-        AssistantRepositoryImpl(get())
+        AssistantRepositoryImpl(get(), get())
     }
 
     viewModel { params ->
