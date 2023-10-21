@@ -22,8 +22,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -36,6 +39,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R.drawable
+import com.turtleteam.core_view.models.Operation
+import com.turtleteam.core_view.view.bottomSheet.OperationBottomSheet
+import com.turtleteam.core_view.view.layout.OperationView
 import com.turtleteam.impl.presentation.home.screen.component.CardView
 import com.turtleteam.impl.presentation.home.screen.component.SmallCardView
 import com.turtleteam.impl.presentation.home.screen.component.cardList
@@ -58,6 +64,7 @@ fun HomeScreen(
 ) {
     val pagerState = rememberPagerState { cardList.size }
     val progress = remember { mutableFloatStateOf(0f) }
+    val showBottomSheet = remember { mutableStateOf(false) }
 
     val paymentVariantList = listOf(
         PaymentVariant(
@@ -82,6 +89,23 @@ fun HomeScreen(
         )
     )
 
+    OperationBottomSheet(
+        operation = Operation(
+            id = "1",
+            sum = "85",
+            date = "20.11.2023",
+            bankRecipient = "Центр-Инвест",
+            billRecipient = "1234 1231 8789 3432",
+            recipientType = "Дебетовый счет",
+            phoneRecipient = "+79044422123",
+            status = "Выполнен",
+            operationType = "Перевод",
+            operationCategory = "Книги",
+            numberReceipt = "1234 1231 8789 3432",
+            commission = "20%",
+            comment = "на еду"
+        ), showBottomSheet = showBottomSheet
+    )
 
     CollapsingToolbarScaffold(
         modifier = Modifier
@@ -180,35 +204,11 @@ fun HomeScreen(
                 )
             }
             items(count = 8) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        Text(
-                            text = "Крайнюков А.",
-                            fontSize = 14.sp,
-                            lineHeight = 28.sp,
-                            fontWeight = FontWeight(600),
-                        )
-                        Text(
-                            text = "Переводы",
-                            fontSize = 12.sp,
-                            lineHeight = 28.sp,
-                        )
-                    }
-                    Text(
-                        text = "-85 ₽ ",
-                        fontSize = 14.sp,
-                        lineHeight = 28.sp,
-                        fontWeight = FontWeight(600),
-                    )
+                OperationView {
+                    showBottomSheet.value = true
                 }
             }
         }
     }
 }
+
