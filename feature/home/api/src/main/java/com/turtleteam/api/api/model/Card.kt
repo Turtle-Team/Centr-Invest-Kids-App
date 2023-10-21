@@ -1,6 +1,8 @@
-package com.turtleteam.api.model
+package com.turtleteam.api.api.model
 
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Card (
     val numCards: String,
     val dateClose: String,
@@ -10,6 +12,7 @@ data class Card (
     val bill: Bill
 )
 
+@Serializable
 data class Bill(
     val title: String,
     val owner: String,
@@ -17,4 +20,14 @@ data class Bill(
     val dateOpen: String,
     val agreement: String,
     val remainder: String
+)
+
+@Serializable
+data class CardShort(
+    val code: Int,
+    val dateClose: String,
+    val id: String,
+    val number: String,
+    val paymentPeriodBegin: String,
+    val paymentPeriodEnd: String
 )

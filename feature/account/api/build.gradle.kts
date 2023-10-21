@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -35,4 +36,5 @@ android {
 dependencies {
 
     implementation(project(Modules.core_navigation))
+    implementation(Dependencies.Data.ktorJson)
 }

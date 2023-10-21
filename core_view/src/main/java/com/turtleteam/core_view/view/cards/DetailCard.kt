@@ -1,5 +1,6 @@
 package com.turtleteam.core_view.view.cards
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,7 +28,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
+import java.text.SimpleDateFormat
 
+@SuppressLint("SimpleDateFormat")
 @Composable
 fun DetailCardInfo(
     modifier: Modifier = Modifier,
@@ -103,26 +106,11 @@ fun DetailCardInfo(
                 .fillMaxWidth()
                 .padding(top = 26.dp, start = 26.dp, end = 26.dp, bottom = 22.dp)
         ) {
-            Column() {
-                Text(
-                    text = "Имя владельца",
-                    style = TextStyle(
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.White
-                    ),
-                )
-                Text(
-                    text = name,
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
-                )
-            }
+            val formattedDate = date.replace(Regex("""(\d{4})-(\d{2})-(\d{2})"""), "$3/$2")
+
             Spacer(modifier = Modifier.weight(1f))
-            Column() {
+
+            Column {
                 Text(
                     text = "Дата истечения",
                     style = TextStyle(
@@ -132,7 +120,7 @@ fun DetailCardInfo(
                     ),
                 )
                 Text(
-                    text = date,
+                    text = formattedDate,
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,

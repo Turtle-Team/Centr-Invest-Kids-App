@@ -24,8 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.turtleteam.api.model.Bill
-import com.turtleteam.api.model.Card
+import com.turtleteam.api.api.model.Bill
+import com.turtleteam.api.api.model.Card
 import com.turtleteam.core_view.R
 
 @OptIn(ExperimentalMaterial3Api::class)

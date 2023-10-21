@@ -53,6 +53,7 @@ dependencies {
     implementation("com.google.guava:guava:32.1.3-jre")
 
     implementation(Dependencies.Data.ktorCore)
+    implementation(Dependencies.Data.ktorJson)
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)

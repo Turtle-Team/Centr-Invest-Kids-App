@@ -1,5 +1,6 @@
 package com.turtleteam.impl.data.api.service
 
+import com.turtleteam.api.data.api.model.User
 import com.turtleteam.api.data.api.model.UserDTOReceive
 import com.turtleteam.api.data.api.repository.AccountRepository
 import com.turtleteam.api.data.api.service.AccountService
@@ -16,8 +17,7 @@ class AccountServiceImpl(private val repository: AccountRepository) : AccountSer
         repository.registerUser(userHashing)
     }
 
-    override suspend fun authUser(login: String, password: String): String {
-        val passwordHashing = password.hashString("SHA-256")
-        return repository.authUser(login, passwordHashing)
+    override suspend fun authUser(login: String, password: String): User {
+        return repository.authUser(login, password)
     }
 }

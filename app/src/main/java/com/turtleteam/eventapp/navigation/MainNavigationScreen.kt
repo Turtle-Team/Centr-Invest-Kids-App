@@ -73,6 +73,11 @@ fun MainNavigationScreen(
             icon = R.drawable.ic_home
         ),
         NavigationItem(
+            route = assistantFeature.baseRoute,
+            label = R.string.bottom_navigation_view_assistant,
+            icon = R.drawable.ic_assistant
+        ),
+        NavigationItem(
             route = eventFeature.baseRoute,
             label = R.string.bottom_navigation_view_event,
             icon = R.drawable.ic_ticket
@@ -123,9 +128,9 @@ fun MainNavigationScreen(
             startDestination = homeFeature.baseRoute
         ) {
             register(homeFeature, navController, bottomNavigationViewModifier)
+            register(accountFeature, navController, bottomNavigationViewModifier)
             register(eventFeature, navController, bottomNavigationViewModifier)
             register(profileFeature, navController, bottomNavigationViewModifier)
-            register(accountFeature, navController)
             register(assistantFeature, navController)
             register(paymentFeature, navController)
             register(detailCardFeature, navController)

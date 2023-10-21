@@ -1,5 +1,6 @@
 package com.turtleteam.impl.presentation.home.screen
 
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -70,6 +73,10 @@ fun HomeScreen(
     val pagerState = rememberPagerState { cardList.size }
     val progress = remember { mutableFloatStateOf(0f) }
     val showBottomSheet = remember { mutableStateOf(false) }
+
+    val state = viewModel.state.collectAsState()
+
+    Toast.makeText(LocalContext.current, state.value.cards.toString(), Toast.LENGTH_SHORT).show()
 
     val paymentVariantList = listOf(
         PaymentVariant(
@@ -150,9 +157,9 @@ fun HomeScreen(
                             .align(Alignment.CenterHorizontally)
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp),
-                        name = "Mikhail Zubenko",
-                        cardNumber = cardList[it].numCards,
-                        date = cardList[it].dateClose
+                        name = "",
+                        cardNumber = state.value.cards?.get(it)?.number ?: "",
+                        date = state.value.cards?.get(it)?.dateClose ?: ""
                     ) {
                         viewModel.navigateToDetailCard(cardList[it].numCards)
                     }

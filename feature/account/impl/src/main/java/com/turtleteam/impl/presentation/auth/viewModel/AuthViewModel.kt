@@ -46,8 +46,8 @@ class AuthViewModel(
             exceptionHandleable(
                 executionBlock = {
                     _state.update { it.copy(authLoadingState = LoadingState.Loading) }
-                    val token = accountService.authUser(login, password)
-                    settings.setToken(token)
+                    val user = accountService.authUser(login, password)
+                    settings.setToken(user.token)
                     errorService.showError(settings.getToken().toString())
                 },
                 failureBlock = { throwable ->
