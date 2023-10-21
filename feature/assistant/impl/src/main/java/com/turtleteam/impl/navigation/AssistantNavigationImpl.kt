@@ -21,7 +21,9 @@ class AssistantNavigationImpl : AssistantNavigation {
         navGraphBuilder.composable(baseRoute) {
             val navigator =
                 koinInject<AssistantNavigator>(parameters = { parametersOf(navController) })
-            AssistantScreen(viewModel = koinInject(parameters = { parametersOf(navigator) }))
+            AssistantScreen(
+                modifier,
+                viewModel = koinInject(parameters = { parametersOf(navigator) }))
         }
     }
 }

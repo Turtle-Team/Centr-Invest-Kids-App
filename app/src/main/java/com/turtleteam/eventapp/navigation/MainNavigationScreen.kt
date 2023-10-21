@@ -131,7 +131,7 @@ fun MainNavigationScreen(
             register(accountFeature, navController, bottomNavigationViewModifier)
             register(eventFeature, navController, bottomNavigationViewModifier)
             register(profileFeature, navController, bottomNavigationViewModifier)
-            register(assistantFeature, navController)
+            register(assistantFeature, navController, bottomNavigationViewModifier)
             register(paymentFeature, navController)
             register(detailCardFeature, navController)
         }
