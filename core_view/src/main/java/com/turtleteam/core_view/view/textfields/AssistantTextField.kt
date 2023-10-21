@@ -22,6 +22,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -51,10 +52,10 @@ fun AssistantTextField(
     onSendClick: () -> Unit,
     onMicClick: () -> Unit
 ) {
-    val shape = RoundedCornerShape(100.dp)
+    val shape = RoundedCornerShape(10.dp)
     BasicTextField(
         modifier = Modifier
-            .height(48.dp)
+            .height(53.dp)
             .then(modifier),
         value = value,
         onValueChange = onValueChange,
@@ -64,32 +65,50 @@ fun AssistantTextField(
         enabled = enabled,
         singleLine = singleLine
     ) { innerTextField ->
+
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .shadow(4.dp, shape)
-                .background(Color.White, shape)
-                .padding(4.dp),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Box(
+            Row(
                 modifier = Modifier
-                    .padding(start = 12.dp)
+                    .fillMaxSize()
+                    .shadow(2.dp, shape)
+                    .background(Color.White, shape)
+                    .padding(4.dp)
                     .weight(1f),
-                contentAlignment = Alignment.CenterStart
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                if (value.isEmpty())
-                    Text(
-                        text = placeholder,
-                        fontSize = style.fontSize,
-                        lineHeight = style.lineHeight,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF76786B)
-                    )
-                innerTextField()
+                Box(
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .weight(1f),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    if (value.isEmpty())
+                        Text(
+                            text = placeholder,
+                            fontSize = style.fontSize,
+                            lineHeight = style.lineHeight,
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF76786B)
+                        )
+                    innerTextField()
+                }
+                if (enabled)
+                    IconButton(
+                        onClick = { onSendClick() }) {
+                        Icon(
+                            modifier = Modifier.size(40.dp),
+                            tint = Color(0xFF22A87D),
+                            painter = painterResource(id = R.drawable.ic_send),
+                            contentDescription = ""
+                        )
+                    }
             }
-            Spacer(modifier = Modifier.width(5.dp))
             Box(
                 modifier = Modifier
                     .size(40.dp)
@@ -112,7 +131,7 @@ fun AssistantTextField(
                     )
                 else
                     CircularProgressIndicator(
-                        modifier = Modifier.fillMaxSize(0.8f),
+                        modifier = Modifier.fillMaxSize(0.7f),
                         color = Color.White
                     )
             }
