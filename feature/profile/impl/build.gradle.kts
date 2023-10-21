@@ -39,8 +39,11 @@ android {
 
 dependencies {
     implementation(project(":feature:profile:api"))
+    implementation(project(":feature:account:api"))
+    implementation(project(":feature:settings:api"))
     implementation(project(Modules.core_navigation))
 
+    implementation(Dependencies.Data.ktorJson)
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)

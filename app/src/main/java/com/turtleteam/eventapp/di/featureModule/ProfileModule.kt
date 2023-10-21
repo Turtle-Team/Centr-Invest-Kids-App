@@ -13,6 +13,6 @@ val profileModule = module {
         ProfileNavigator(get(), navController.get())
     }
     viewModel { navigator ->
-        ProfileViewModel(navigator.get())
+        ProfileViewModel(navigator.get(), get())
     }
 }

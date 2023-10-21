@@ -13,6 +13,6 @@ val eventModule = module {
         EventNavigator(get(), navController.get())
     }
     viewModel { navigator ->
-        EventViewModel(navigator.get())
+        EventViewModel(navigator.get(), get())
     }
 }

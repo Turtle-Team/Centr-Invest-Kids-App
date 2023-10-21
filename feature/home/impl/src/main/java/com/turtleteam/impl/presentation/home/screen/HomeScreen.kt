@@ -147,24 +147,28 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                HorizontalPager(
-                    state = pagerState,
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    pageSpacing = 16.dp
-                ) {
-                    DetailCardInfo(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .fillMaxWidth()
-                            .padding(horizontal = 24.dp),
-                        name = "",
-                        cardNumber = state.value.cards?.get(it)?.number ?: "",
-                        date = state.value.cards?.get(it)?.dateClose ?: ""
+                if (state.value.cards?.size != 0){
+                    HorizontalPager(
+                        state = pagerState,
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        pageSpacing = 16.dp
                     ) {
-                        viewModel.navigateToDetailCard(cardList[it].numCards)
+                        DetailCardInfo(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp),
+                            name = "",
+                            cardNumber = state.value.cards?.get(it)?.number ?: "",
+                            date = state.value.cards?.get(it)?.dateClose ?: ""
+                        ) {
+                            viewModel.navigateToDetailCard(cardList[it].numCards)
+                        }
                     }
+                    PageIndicator(
+                        currentPage = pagerState.currentPage, count = state.value.cards?.size ?: 1
+                    )
                 }
-                PageIndicator(currentPage = pagerState.currentPage, count = cardList.size)
             }
             Row(
                 modifier = Modifier
