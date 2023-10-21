@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,6 +34,9 @@ fun CustomTextField(
     style: TextStyle = TextStyle.Default,
     backgroundColor: Color = Color.White,
     iconColor: Color = Color(0xFF00602A),
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    placeholder: String = "введите номер или имя",
     @DrawableRes icon: Int = R.drawable.ic_phone,
     value: String,
     onValueChange: (String) -> Unit
@@ -41,6 +47,8 @@ fun CustomTextField(
         value = value,
         onValueChange = onValueChange,
         textStyle = style,
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions,
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier
@@ -59,7 +67,7 @@ fun CustomTextField(
                 Box {
                     if (value.isEmpty())
                         Text(
-                            text = "введите номер или имя",
+                            text = placeholder,
                             fontSize = 12.sp,
                             lineHeight = 28.sp,
                             color = Color(0x4D1F1F1F),
