@@ -1,4 +1,4 @@
-package com.turtleteam.impl.presentation.payment
+package com.turtleteam.impl.presentation.payment.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -63,15 +63,15 @@ fun PaymentScreen(paymentType: String, viewModel: PaymentViewModel) {
             }
 
             PaymentType.NUMBER_CARD.name -> {
-                NumberCardLayout()
+                NumberCardLayout(viewModel)
             }
 
             PaymentType.NUMBER_BILL.name -> {
-                NumberBillLayout()
+                NumberBillLayout(viewModel)
             }
 
             PaymentType.SBP.name -> {
-                SbpLayout()
+                SbpLayout(viewModel)
             }
 
             PaymentType.BETWEEN_BILL.name -> {

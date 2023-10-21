@@ -1,6 +1,7 @@
 package com.turtleteam.core_view.view.dropdown
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +31,10 @@ import androidx.compose.ui.unit.sp
 fun SelectDropView(
     modifier: Modifier = Modifier,
     @DrawableRes
-    icon: Int,
+    icon: Int? = null,
     iconColor: Color,
+    @DrawableRes
+    image: Int? = null,
     textColor: Color,
     placeholder: String,
     onClick: () -> Unit
@@ -49,11 +52,19 @@ fun SelectDropView(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                painter = painterResource(id = icon), contentDescription = "",
-                tint = iconColor
-            )
+            if (icon != null ){
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = icon), contentDescription = "",
+                    tint = iconColor
+                )
+            } else {
+                Image(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = image!!), contentDescription = "",
+                )
+            }
+
             Text(
                 text = placeholder,
                 fontSize = 12.sp,

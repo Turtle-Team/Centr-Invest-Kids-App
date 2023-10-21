@@ -140,7 +140,8 @@ fun PhoneLayout(viewModel: PaymentViewModel) {
             }
 
             Text(
-                text = "4. Если вы хотите что либо сообщить, можете написать комментарий:", modifier = Modifier.padding(top = 30.dp),
+                text = "4. Если вы хотите что либо сообщить, можете написать комментарий:",
+                modifier = Modifier.padding(top = 30.dp),
                 style = TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium

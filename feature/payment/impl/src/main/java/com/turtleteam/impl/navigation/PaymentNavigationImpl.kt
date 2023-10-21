@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.turtleteam.api.PaymentNavigation
-import com.turtleteam.impl.presentation.payment.PaymentScreen
+import com.turtleteam.impl.presentation.payment.screen.PaymentScreen
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
