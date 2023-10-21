@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -17,9 +19,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -71,7 +78,7 @@ fun DetailCardScreen(cardId: String, viewModel: DetailCardViewModel) {
                 .fillMaxSize()
                 .background(Color.White, RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
                 .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
-            contentPadding = PaddingValues(vertical = 28.dp)
+            contentPadding = PaddingValues(vertical = 24.dp)
         ) {
 
             item {
@@ -79,9 +86,19 @@ fun DetailCardScreen(cardId: String, viewModel: DetailCardViewModel) {
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
-                        .padding(top = 30.dp),
                 ) {
-                    RequisitesView(numberCode = "", date = "", code = "")
+                    LimitView(limitBegin = 100, limitEnd = 70)
+                }
+            }
+
+            item {
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 24.dp)
+                ) {
+                    RequisitesView(numberCode = cardId, date = "08/28", code = "412")
                 }
             }
 
@@ -132,22 +149,61 @@ fun DetailCardScreen(cardId: String, viewModel: DetailCardViewModel) {
 }
 
 @Composable
-fun RequisitesView(numberCode: String, date: String, code: String) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .clip(RoundedCornerShape(10.dp))
-            .shadow(8.dp)
-    ) {
-
-    }
+fun LimitView(limitBegin: Int, limitEnd: Int) {
+    var currentProgress by remember { mutableStateOf(0.7f) }
 
     Card(
         Modifier
             .fillMaxWidth()
-            .background(Color.White)
-            .clip(RoundedCornerShape(10.dp)),
+            .background(Color.White),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+    ) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 10.dp)
+                .padding(vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = "Твой лимит - $limitBegin ₽",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+            Text(
+                text = "Потрачено $limitEnd ₽",
+                style = TextStyle(
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.SemiBold
+                ),
+                modifier = Modifier.padding(top = 20.dp)
+            )
+
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+                    .padding(top = 10.dp)
+                    .clip(RoundedCornerShape(10.dp)),
+                progress = currentProgress,
+                color = Color(0xFFE8F5E9),
+                trackColor = Color(0xFFEFEFEF),
+            )
+        }
+    }
+}
+
+@Composable
+fun RequisitesView(numberCode: String, date: String, code: String) {
+    Card(
+        Modifier
+            .fillMaxWidth()
+            .background(Color.White),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         ),
@@ -160,7 +216,11 @@ fun RequisitesView(numberCode: String, date: String, code: String) {
                 .padding(top = 24.dp, bottom = 17.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = "Реквизиты карты",
                     style = TextStyle(
@@ -174,6 +234,7 @@ fun RequisitesView(numberCode: String, date: String, code: String) {
                         text = "Показать",
                         style = TextStyle(
                             fontSize = 10.sp,
+                            color = Color.Black,
                             fontWeight = FontWeight.SemiBold
                         )
                     )
@@ -181,13 +242,16 @@ fun RequisitesView(numberCode: String, date: String, code: String) {
             }
 
             Column(Modifier.fillMaxWidth()) {
-
-                HiddenText(Modifier.fillMaxWidth(), text = "•••• •••• •••• 6789")
-
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    HiddenText(Modifier.fillMaxWidth(), text = "•••")
+                HiddenText(Modifier.fillMaxWidth(), text = numberCode)
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    HiddenText(Modifier.fillMaxWidth(0.5f), text = code)
                     Spacer(modifier = Modifier.padding(end = 10.dp))
-                    HiddenText(Modifier.fillMaxWidth(), text = "••/••")
+                    HiddenText(Modifier.fillMaxWidth(), text = date)
                 }
             }
         }
@@ -199,6 +263,7 @@ fun HiddenText(modifier: Modifier = Modifier, text: String) {
     Text(
         text = text,
         modifier = modifier
+            .clip(RoundedCornerShape(10.dp))
             .background(Color(0xFFEFEFEF))
             .padding(horizontal = 10.dp, vertical = 14.dp)
     )
