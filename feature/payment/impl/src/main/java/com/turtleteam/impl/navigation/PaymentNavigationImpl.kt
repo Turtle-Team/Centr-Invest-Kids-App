@@ -10,7 +10,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 
-class PaymentNavigationImpl: PaymentNavigation {
+class PaymentNavigationImpl : PaymentNavigation {
 
     override val baseRoute: String = "payment"
 
@@ -19,9 +19,14 @@ class PaymentNavigationImpl: PaymentNavigation {
         navController: NavController,
         modifier: Modifier
     ) {
-        navGraphBuilder.composable(route = baseRoute) {
-            val navigator = koinInject<PaymentNavigator>(parameters = { parametersOf(navController) })
-            PaymentScreen(viewModel = koinViewModel(parameters = { parametersOf(navigator) }))
+        navGraphBuilder.composable(route = "$baseRoute/{payment_type}") { args ->
+            val paymentType = args.arguments?.getString("payment_type")
+            val navigator =
+                koinInject<PaymentNavigator>(parameters = { parametersOf(navController) })
+            PaymentScreen(
+                paymentType = paymentType.toString(),
+                viewModel = koinViewModel(parameters = { parametersOf(navigator) })
+            )
         }
     }
 }

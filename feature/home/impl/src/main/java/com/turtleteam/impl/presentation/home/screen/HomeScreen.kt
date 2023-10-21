@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -23,9 +22,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -33,18 +34,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import com.turtleteam.core_view.R.drawable
 import com.turtleteam.core_view.models.Operation
-import com.turtleteam.core_view.view.PageIndicator
 import com.turtleteam.core_view.view.bottomSheet.OperationBottomSheet
-import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.layout.OperationView
+import com.turtleteam.impl.presentation.home.screen.component.CardView
 import com.turtleteam.impl.presentation.home.screen.component.SmallCardView
 import com.turtleteam.impl.presentation.home.screen.component.cardList
 import com.turtleteam.impl.presentation.home.viewModel.HomeViewModel
@@ -55,7 +53,8 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 data class PaymentVariant(
     val label: String,
     @DrawableRes
-    val icon: Int
+    val icon: Int,
+    val paymentType: PaymentType
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -67,6 +66,34 @@ fun HomeScreen(
     val pagerState = rememberPagerState { cardList.size }
     val progress = remember { mutableFloatStateOf(0f) }
     val showBottomSheet = remember { mutableStateOf(false) }
+
+    val paymentVariantList = listOf(
+        PaymentVariant(
+            label = "По номеру телефона",
+            icon = drawable.ic_phone,
+            paymentType = PaymentType.PHONE
+        ),
+        PaymentVariant(
+            label = "По номеру карты",
+            icon = drawable.ic_card_pay,
+            paymentType = PaymentType.NUMBER_CARD
+        ),
+        PaymentVariant(
+            label = "По номеру счета",
+            icon = drawable.ic_ruble,
+            paymentType = PaymentType.NUMBER_BILL
+        ),
+        PaymentVariant(
+            label = "Перевод через СБП",
+            icon = drawable.ic_sbp,
+            paymentType = PaymentType.SBP
+        ),
+        PaymentVariant(
+            label = "Между счетами",
+            icon = drawable.ic_between_bill,
+            paymentType = PaymentType.BETWEEN_BILL
+        )
+    )
 
     OperationBottomSheet(
         operation = Operation(
@@ -184,7 +211,7 @@ fun HomeScreen(
                             icon = paymentVariant.icon,
                             text = paymentVariant.label,
                         ) {
-
+                            viewModel.navigateToPayment(paymentVariant.paymentType)
                         }
                     }
                 }
@@ -208,26 +235,3 @@ fun HomeScreen(
         }
     }
 }
-
-val paymentVariantList = listOf( //todo
-    PaymentVariant(
-        label = "По номеру телефона",
-        icon = drawable.ic_phone,
-    ),
-    PaymentVariant(
-        label = "По номеру карты",
-        icon = drawable.ic_card
-    ),
-    PaymentVariant(
-        label = "По номеру карты",
-        icon = drawable.ic_ruble
-    ),
-    PaymentVariant(
-        label = "По номеру карты",
-        icon = drawable.ic_sbp
-    ),
-    PaymentVariant(
-        label = "По номеру карты",
-        icon = drawable.ic_between_bill
-    )
-)

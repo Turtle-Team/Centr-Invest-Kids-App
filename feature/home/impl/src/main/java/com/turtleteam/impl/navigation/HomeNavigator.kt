@@ -2,6 +2,7 @@ package com.turtleteam.impl.navigation
 
 import androidx.navigation.NavController
 import com.turtleteam.api.PaymentNavigation
+import com.turtleteam.api.model.PaymentType
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.AssistantNavigation
 import com.turtleteam.api.navigation.DetailCardNavigation
@@ -29,8 +30,8 @@ class HomeNavigator (
        navController.navigate(assistantRoute)
     }
 
-    fun navigateToPayment() {
-        navController.navigate(paymentRoute)
+    fun navigateToPayment(paymentType: PaymentType) {
+        navController.navigate("$paymentRoute/$paymentType")
     }
 
     fun navigateToDetailCard(cardId: String) {

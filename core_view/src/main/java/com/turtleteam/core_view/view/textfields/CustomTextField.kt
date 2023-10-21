@@ -36,8 +36,8 @@ fun CustomTextField(
     iconColor: Color = Color(0xFF00602A),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    placeholder: String = "введите номер или имя",
     @DrawableRes icon: Int = R.drawable.ic_phone,
+    placeholder: String,
     value: String,
     onValueChange: (String) -> Unit
 ) {
