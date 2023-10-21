@@ -197,7 +197,7 @@ fun LimitView(limitBegin: Int, limitEnd: Int) {
                     .height(10.dp)
                     .clip(RoundedCornerShape(10.dp)),
                 progress = (limitEnd.toFloat() / limitBegin.toFloat()),
-                color = Color(0xFFE8F5E9),
+                color = Color(0xFF4DB45F),
                 trackColor = Color(0xFFEFEFEF),
             )
         }

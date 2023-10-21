@@ -38,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turtleteam.api.model.PaymentType
 import com.turtleteam.core_view.R.drawable
 import com.turtleteam.core_view.models.Operation
 import com.turtleteam.core_view.view.bottomSheet.OperationBottomSheet
@@ -53,7 +54,8 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 data class PaymentVariant(
     val label: String,
     @DrawableRes
-    val icon: Int
+    val icon: Int,
+    val paymentType: PaymentType
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -70,22 +72,27 @@ fun HomeScreen(
         PaymentVariant(
             label = "По номеру телефона",
             icon = drawable.ic_phone,
+            paymentType = PaymentType.PHONE
         ),
         PaymentVariant(
             label = "По номеру карты",
-            icon = drawable.ic_card
+            icon = drawable.ic_card_pay,
+            paymentType = PaymentType.NUMBER_CARD
         ),
         PaymentVariant(
-            label = "По номеру карты",
-            icon = drawable.ic_ruble
+            label = "По номеру счета",
+            icon = drawable.ic_ruble,
+            paymentType = PaymentType.NUMBER_BILL
         ),
         PaymentVariant(
-            label = "По номеру карты",
-            icon = drawable.ic_sbp
+            label = "Перевод через СБП",
+            icon = drawable.ic_sbp,
+            paymentType = PaymentType.SBP
         ),
         PaymentVariant(
-            label = "По номеру карты",
-            icon = drawable.ic_between_bill
+            label = "Между счетами",
+            icon = drawable.ic_between_bill,
+            paymentType = PaymentType.BETWEEN_BILL
         )
     )
 
@@ -187,7 +194,7 @@ fun HomeScreen(
                             icon = paymentVariant.icon,
                             text = paymentVariant.label,
                         ) {
-
+                            viewModel.navigateToPayment(paymentVariant.paymentType)
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package com.turtleteam.impl.presentation.home.viewModel
 
 import androidx.lifecycle.ViewModel
+import com.turtleteam.api.model.PaymentType
 import com.turtleteam.impl.navigation.HomeNavigator
 
 class HomeViewModel(private val navigator: HomeNavigator) : ViewModel() {
@@ -13,8 +14,8 @@ class HomeViewModel(private val navigator: HomeNavigator) : ViewModel() {
         navigator.navigateToAssistant()
     }
 
-    fun navigateToPayment() {
-        navigator.navigateToPayment()
+    fun navigateToPayment(paymentType: PaymentType) {
+        navigator.navigateToPayment(paymentType)
     }
 
     fun navigateToDetailCard(cardId: String) {
