@@ -4,16 +4,21 @@ plugins {
 }
 
 android {
-    namespace = "ru.marat.impl"
+    namespace = "com.turtleteam.impl"
     compileSdk = 33
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
-
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -34,10 +39,17 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(project(":feature:home:api"))
+    implementation(project(":feature:detail_card:api"))
+    implementation(project(Modules.core_view))
+    implementation(project(Modules.core_navigation))
+
+    implementation("me.onebone:toolbar-compose:2.3.5")
+    implementation(Dependencies.Android.androidCore)
+    implementation(Dependencies.Android.appcompat)
+    implementation(Dependencies.JetpackCompose.material)
+    implementation(Dependencies.JetpackCompose.activityCompose)
+    implementation(Dependencies.JetpackCompose.ui)
+    implementation(Dependencies.JetpackCompose.navigation)
+    implementation(Dependencies.DI.koin)
 }

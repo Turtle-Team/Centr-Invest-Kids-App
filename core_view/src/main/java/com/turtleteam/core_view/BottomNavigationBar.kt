@@ -5,8 +5,10 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,6 +39,7 @@ fun BottomNavigationBar(
     onClick: (route: String) -> Unit
 ) {
     var lastSelectedBtn by rememberSaveable { mutableStateOf(currentRoute) }
+
     NavigationBar(
         modifier = Modifier.zIndex(0.9f),
         containerColor = Color(0xFFE8F5E9)

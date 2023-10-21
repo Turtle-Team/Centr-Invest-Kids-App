@@ -16,4 +16,8 @@ class HomeViewModel(private val navigator: HomeNavigator) : ViewModel() {
     fun navigateToPayment() {
         navigator.navigateToPayment()
     }
+
+    fun navigateToDetailCard(cardId: String) {
+        navigator.navigateToDetailCard(cardId)
+    }
 }

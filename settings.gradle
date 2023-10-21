@@ -59,7 +59,7 @@ include(":feature:payment")
 include ':feature:payment:api'
 include ':feature:payment:impl'
 
-//Detail
-include(":feature:detail_card")
+//Detail Card
+include ':feature:detail_card'
 include ':feature:detail_card:api'
 include ':feature:detail_card:impl'

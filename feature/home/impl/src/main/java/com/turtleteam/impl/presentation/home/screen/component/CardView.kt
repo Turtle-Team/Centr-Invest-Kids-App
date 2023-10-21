@@ -126,7 +126,7 @@ fun SmallCardView(
         onClick = onClick
     ) {
         Spacer(modifier = Modifier.weight(1.4f))
-        Icon(
+        Image(
             modifier = Modifier.padding(horizontal = 8.dp),
             painter = painterResource(id = icon),
             contentDescription = null

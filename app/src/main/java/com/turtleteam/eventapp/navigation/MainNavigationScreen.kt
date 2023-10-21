@@ -22,6 +22,7 @@ import com.turtleteam.api.PaymentNavigation
 import com.turtleteam.api.Settings
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.AssistantNavigation
+import com.turtleteam.api.navigation.DetailCardNavigation
 import com.turtleteam.api.navigation.EventNavigation
 import com.turtleteam.api.navigation.HomeNavigation
 import com.turtleteam.api.navigation.ProfileNavigation
@@ -50,6 +51,7 @@ fun MainNavigationScreen(
     val accountFeature: AccountNavigation = koinInject()
     val assistantFeature: AssistantNavigation = koinInject()
     val paymentFeature: PaymentNavigation = koinInject()
+    val detailCardFeature: DetailCardNavigation = koinInject()
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -126,6 +128,7 @@ fun MainNavigationScreen(
             register(accountFeature, navController)
             register(assistantFeature, navController)
             register(paymentFeature, navController)
+            register(detailCardFeature, navController)
         }
     }
 }

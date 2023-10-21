@@ -42,6 +42,7 @@ dependencies {
     implementation(project(":feature:account:api"))
     implementation(project(":feature:assistant:api"))
     implementation(project(":feature:payment:api"))
+    implementation(project(":feature:detail_card:api"))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
 

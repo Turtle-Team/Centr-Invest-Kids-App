@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import com.turtleteam.api.PaymentNavigation
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.AssistantNavigation
+import com.turtleteam.api.navigation.DetailCardNavigation
 import com.turtleteam.api.navigation.HomeNavigation
 
 class HomeNavigator (
@@ -11,12 +12,14 @@ class HomeNavigator (
     accountNavigation: AccountNavigation,
     assistantNavigation: AssistantNavigation,
     paymentNavigation: PaymentNavigation,
+    detailCardNavigation: DetailCardNavigation,
     private val navController: NavController
 ) {
     private val baseRoute = homeNavigation.baseRoute
     private val accountRoute = accountNavigation.baseRoute
     private val assistantRoute = assistantNavigation.baseRoute
     private val paymentRoute = paymentNavigation.baseRoute
+    private val detailCardRoute = detailCardNavigation.baseRoute
 
     fun navigateToWelcome() {
         navController.navigate(accountRoute)
@@ -28,5 +31,9 @@ class HomeNavigator (
 
     fun navigateToPayment() {
         navController.navigate(paymentRoute)
+    }
+
+    fun navigateToDetailCard(cardId: String) {
+        navController.navigate(route ="$detailCardRoute/$cardId")
     }
 }
