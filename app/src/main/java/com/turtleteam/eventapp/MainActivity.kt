@@ -3,7 +3,6 @@ package com.turtleteam.eventapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.compose.rememberNavController
 import com.turtleteam.api.Settings
