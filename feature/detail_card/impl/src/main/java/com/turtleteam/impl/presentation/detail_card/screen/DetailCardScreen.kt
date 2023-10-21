@@ -11,34 +11,31 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import com.turtleteam.core_view.R
 import com.turtleteam.impl.presentation.detail_card.viewModel.DetailCardViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -46,7 +43,13 @@ import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
-fun DetailCardScreen(cardId: String, viewModel: DetailCardViewModel) {
+fun DetailCardScreen(
+    cardId: String,
+    viewModel: DetailCardViewModel
+) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val progress = remember { mutableFloatStateOf(0f) }
+
     CollapsingToolbarScaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -55,22 +58,30 @@ fun DetailCardScreen(cardId: String, viewModel: DetailCardViewModel) {
         state = rememberCollapsingToolbarScaffoldState(),
         scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
         toolbar = {
-            Row {
-                IconButton(onClick = { viewModel.onBackButtonClick() }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = null,
-                        Modifier.size(24.dp)
-                    )
-                }
-
-                CardInfo(
-                    Modifier
-                        .padding(horizontal = 24.dp)
-                        .padding(top = 16.dp, bottom = 24.dp),
-                    name = "Egor Lyadsky"
+            val scale = (progress.floatValue * 10f) * 0.02f
+            IconButton(
+                modifier = Modifier
+                    .pin(),
+                onClick = { viewModel.onBackButtonClick() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = null,
+                    Modifier.size(24.dp)
                 )
             }
+
+            CardInfo(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = (screenWidth * 0.1f).dp)
+                    .padding(vertical = (screenWidth * 0.05f).dp)
+                    .alpha(progress.floatValue)
+                    .scale(0.8f + scale)
+                    .progress {
+                        progress.floatValue = it
+                    },
+                name = "Egor Lyadsky"
+            )
         }
     ) {
         LazyColumn(
@@ -150,8 +161,6 @@ fun DetailCardScreen(cardId: String, viewModel: DetailCardViewModel) {
 
 @Composable
 fun LimitView(limitBegin: Int, limitEnd: Int) {
-    var currentProgress by remember { mutableStateOf(0.7f) }
-
     Card(
         Modifier
             .fillMaxWidth()
@@ -165,7 +174,7 @@ fun LimitView(limitBegin: Int, limitEnd: Int) {
             Modifier
                 .fillMaxSize()
                 .padding(horizontal = 10.dp)
-                .padding(vertical = 24.dp),
+                .padding(vertical = 18.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
@@ -177,20 +186,17 @@ fun LimitView(limitBegin: Int, limitEnd: Int) {
             )
             Text(
                 text = "Потрачено $limitEnd ₽",
-                style = TextStyle(
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.SemiBold
-                ),
-                modifier = Modifier.padding(top = 20.dp)
+                fontSize = 10.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(top = 15.dp)
             )
 
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(20.dp)
-                    .padding(top = 10.dp)
+                    .height(10.dp)
                     .clip(RoundedCornerShape(10.dp)),
-                progress = currentProgress,
+                progress = (limitEnd.toFloat() / limitBegin.toFloat()),
                 color = Color(0xFFE8F5E9),
                 trackColor = Color(0xFFEFEFEF),
             )
@@ -202,57 +208,51 @@ fun LimitView(limitBegin: Int, limitEnd: Int) {
 fun RequisitesView(numberCode: String, date: String, code: String) {
     Card(
         Modifier
-            .fillMaxWidth()
-            .background(Color.White),
+            .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         ),
         colors = CardDefaults.cardColors(containerColor = Color.White),
     ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Реквизиты карты",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            TextButton(onClick = { /*TODO*/ }) {
+                Text(
+                    text = "Показать",
+                    fontSize = 10.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+        Spacer(modifier = Modifier.size(12.dp))
         Column(
             Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(horizontal = 10.dp)
-                .padding(top = 24.dp, bottom = 17.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(bottom = 17.dp)
         ) {
+            HiddenText(Modifier.fillMaxWidth(), text = numberCode)
             Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "Реквизиты карты",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
-
-                TextButton(onClick = { /*TODO*/ }) {
-                    Text(
-                        text = "Показать",
-                        style = TextStyle(
-                            fontSize = 10.sp,
-                            color = Color.Black,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    )
-                }
-            }
-
-            Column(Modifier.fillMaxWidth()) {
-                HiddenText(Modifier.fillMaxWidth(), text = numberCode)
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    HiddenText(Modifier.fillMaxWidth(0.5f), text = code)
-                    Spacer(modifier = Modifier.padding(end = 10.dp))
-                    HiddenText(Modifier.fillMaxWidth(), text = date)
-                }
+                HiddenText(Modifier.weight(0.5f), text = code)
+                Spacer(modifier = Modifier.weight(0.25f))
+                HiddenText(Modifier.weight(0.25f), text = date)
             }
         }
     }
@@ -272,8 +272,8 @@ fun HiddenText(modifier: Modifier = Modifier, text: String) {
 @Composable
 fun CardInfo(modifier: Modifier = Modifier, name: String) {
     Column(
-        modifier
-            .fillMaxWidth()
+        Modifier
+            .then(modifier)
             .clip(RoundedCornerShape(10.dp))
             .background(Color(0xFF4DB45F))
     ) {
