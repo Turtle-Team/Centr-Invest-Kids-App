@@ -44,6 +44,7 @@ dependencies {
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
 
+    implementation("me.onebone:toolbar-compose:2.3.5")
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)
