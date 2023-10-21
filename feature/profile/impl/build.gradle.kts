@@ -48,4 +48,5 @@ dependencies {
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.navigation)
     implementation(Dependencies.DI.koin)
+    implementation(project(mapOf("path" to ":core_view")))
 }

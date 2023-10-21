@@ -2,6 +2,8 @@ package com.turtleteam.core_view.view.groupbuttons
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,22 +34,28 @@ data class ProfileButton(
 
 @Composable
 fun ButtonsGroup(
+    modifier: Modifier = Modifier,
     buttons: List<ProfileButton>
 ) {
     val shape = RoundedCornerShape(8.dp)
     Column(
         modifier = Modifier
+            .then(modifier)
             .fillMaxWidth()
             .shadow(4.dp, shape)
             .background(Color.White, shape = shape)
-            .padding(vertical = 11.dp),
-        verticalArrangement = Arrangement.spacedBy(11.dp)
+            .padding(vertical = 5.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         buttons.forEach {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = rememberRipple(color = Color(0xFF4CAF50))
+                    ) { it.action() }
+                    .padding(vertical = 3.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
