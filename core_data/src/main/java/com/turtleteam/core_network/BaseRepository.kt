@@ -17,13 +17,13 @@ import io.ktor.utils.io.errors.IOException
 abstract class BaseRepository(private val httpClient: HttpClient) {
 
     protected suspend fun executeCall(
+        url: String = URL.BASE,
         type: HttpMethod,
         path: String,
         parameters: Map<String, String>? = null,
         headers: Map<String, String>? = null,
         body: String? = null
     ): String {
-        val url = "http://api.dataquire.ru:8080/api/"
         val response: HttpResponse
         try {
             response = httpClient.request(url) {

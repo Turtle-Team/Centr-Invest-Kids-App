@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -39,10 +40,12 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:speaker:api"))
     implementation(project(":feature:home:api"))
     implementation(project(":feature:assistant:api"))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
+    implementation(project(Modules.core_data))
 
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
@@ -51,4 +54,6 @@ dependencies {
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.navigation)
     implementation(Dependencies.DI.koin)
+    implementation(Dependencies.Data.ktorCore)
+    implementation(Dependencies.Data.ktorJson)
 }

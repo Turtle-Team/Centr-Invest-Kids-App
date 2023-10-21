@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +17,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +45,9 @@ fun AssistantTextField(
     placeholder: String = "перевести деньги",
     style: TextStyle = TextStyle.Default,
     singleLine: Boolean = false,
+    enabled: Boolean = true,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     onMicClick: () -> Unit
 ) {
     val shape = RoundedCornerShape(100.dp)
@@ -51,6 +58,9 @@ fun AssistantTextField(
         value = value,
         onValueChange = onValueChange,
         textStyle = style,
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions,
+        enabled = enabled,
         singleLine = singleLine
     ) { innerTextField ->
         Row(
@@ -88,15 +98,22 @@ fun AssistantTextField(
                         interactionSource = MutableInteractionSource(),
                         indication = rememberRipple()
                     ) {
-                      onMicClick()
+                        if (enabled)
+                            onMicClick()
                     },
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_microphone),
-                    contentDescription = null,
-                    tint = Color.White
-                )
+                if (enabled)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_microphone),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                else
+                    CircularProgressIndicator(
+                        modifier = Modifier.fillMaxSize(0.8f),
+                        color = Color.White
+                    )
             }
         }
     }

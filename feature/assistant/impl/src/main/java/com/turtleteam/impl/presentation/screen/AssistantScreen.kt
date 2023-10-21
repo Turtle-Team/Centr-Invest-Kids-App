@@ -3,6 +3,8 @@ package com.turtleteam.impl.presentation.screen
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R.*
@@ -58,6 +64,12 @@ fun AssistantScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 4.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) {
+                            viewModel.onMessageClick(it.text)
+                        }
                         .animateItemPlacement(),
                     horizontalArrangement = Arrangement.spacedBy(
                         8.dp,
@@ -90,7 +102,7 @@ fun AssistantScreen(
                                         Color(0xFFDEE6C5)
                                     else
                                         Color(0xFFBCECE4),
-                                    CircleShape
+                                    RoundedCornerShape(20.dp)
                                 )
                                 .padding(horizontal = 20.dp, vertical = 8.dp),
                             text = it.text,
@@ -116,6 +128,12 @@ fun AssistantScreen(
                 modifier = Modifier.weight(0.6f),
                 value = text.value,
                 onValueChange = { text.value = it },
+                enabled = state.value.textFieldEnabled,
+                keyboardActions = KeyboardActions(onSend = {
+                    viewModel.onMessageSend(text.value)
+                    text.value = ""
+                }),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                 onMicClick = {
                     //todo
                 }

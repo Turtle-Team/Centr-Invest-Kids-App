@@ -33,6 +33,5 @@ android {
 }
 
 dependencies {
-
     implementation(project(Modules.core_navigation))
 }
