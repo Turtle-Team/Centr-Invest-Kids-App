@@ -38,9 +38,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:settings:api"))
     implementation(project(":feature:event:api"))
+    implementation(project(":feature:account:api"))
+    implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
 
+    implementation(Dependencies.Data.ktorJson)
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)

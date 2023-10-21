@@ -1,6 +1,5 @@
 package com.turtleteam.impl.presentation.profile.screen
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,13 +13,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -35,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R.*
 import com.turtleteam.core_view.view.groupbuttons.ButtonsGroup
-import com.turtleteam.impl.R
 import com.turtleteam.impl.presentation.profile.screen.components.getButtonsList
 import com.turtleteam.impl.presentation.profile.viewModel.ProfileViewModel
 
@@ -45,6 +43,7 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel
 ) {
+    val state = viewModel.state.collectAsState()
     val btns = getButtonsList(viewModel = viewModel)
     val density = LocalDensity.current
     val screenHeight = LocalConfiguration.current.screenHeightDp
@@ -119,7 +118,7 @@ fun ProfileScreen(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                text = "Зубенко Михаил",
+                text = "${state.value.user?.user?.firstname} ${state.value.user?.user?.lastname}",
                 fontSize = 22.sp,
                 lineHeight = 28.sp,
                 fontWeight = FontWeight(600),
