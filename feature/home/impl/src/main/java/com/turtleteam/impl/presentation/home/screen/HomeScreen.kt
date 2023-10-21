@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -22,11 +23,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -34,15 +33,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.turtleteam.core_view.R.drawable
 import com.turtleteam.core_view.models.Operation
+import com.turtleteam.core_view.view.PageIndicator
 import com.turtleteam.core_view.view.bottomSheet.OperationBottomSheet
+import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.layout.OperationView
-import com.turtleteam.impl.presentation.home.screen.component.CardView
 import com.turtleteam.impl.presentation.home.screen.component.SmallCardView
 import com.turtleteam.impl.presentation.home.screen.component.cardList
 import com.turtleteam.impl.presentation.home.viewModel.HomeViewModel
@@ -66,29 +68,6 @@ fun HomeScreen(
     val progress = remember { mutableFloatStateOf(0f) }
     val showBottomSheet = remember { mutableStateOf(false) }
 
-    val paymentVariantList = listOf(
-        PaymentVariant(
-            label = "По номеру телефона",
-            icon = drawable.ic_phone,
-        ),
-        PaymentVariant(
-            label = "По номеру карты",
-            icon = drawable.ic_card
-        ),
-        PaymentVariant(
-            label = "По номеру карты",
-            icon = drawable.ic_ruble
-        ),
-        PaymentVariant(
-            label = "По номеру карты",
-            icon = drawable.ic_sbp
-        ),
-        PaymentVariant(
-            label = "По номеру карты",
-            icon = drawable.ic_between_bill
-        )
-    )
-
     OperationBottomSheet(
         operation = Operation(
             id = "1",
@@ -111,25 +90,43 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .then(modifier)
-            .background(Color(0xFFE8F5E9))
             .clipToBounds(),
+        toolbarModifier = Modifier.background(
+            Color(0xFFFFC01B),
+            RoundedCornerShape(bottomEnd = 24.dp, bottomStart = 24.dp)
+        ),
         state = rememberCollapsingToolbarScaffoldState(),
         scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
         toolbar = {
             val scale = (progress.floatValue * 10f) * 0.02f
-            HorizontalPager(
+            Column(
                 modifier = Modifier
                     .progress { progress.floatValue = it }
                     .alpha(progress.floatValue)
-                    .padding(top = 105.dp)
-                    .scale(0.8f + scale),
-                state = pagerState,
-                contentPadding = PaddingValues(16.dp),
-                pageSpacing = 16.dp
+                    .padding(top = 70.dp)
+                    .scale(0.8f + scale)
+                    .offset(y = (-10).dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CardView(card = cardList[it]) {
-                    viewModel.navigateToDetailCard(cardList[it].numCards)
+                HorizontalPager(
+                    state = pagerState,
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    pageSpacing = 16.dp
+                ) {
+                    DetailCardInfo(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        name = "Mikhail Zubenko",
+                        cardNumber = cardList[it].numCards,
+                        date = cardList[it].dateClose
+                    ) {
+                        viewModel.navigateToDetailCard(cardList[it].numCards)
+                    }
                 }
+                PageIndicator(currentPage = pagerState.currentPage, count = cardList.size)
             }
             Row(
                 modifier = Modifier
@@ -212,3 +209,25 @@ fun HomeScreen(
     }
 }
 
+val paymentVariantList = listOf( //todo
+    PaymentVariant(
+        label = "По номеру телефона",
+        icon = drawable.ic_phone,
+    ),
+    PaymentVariant(
+        label = "По номеру карты",
+        icon = drawable.ic_card
+    ),
+    PaymentVariant(
+        label = "По номеру карты",
+        icon = drawable.ic_ruble
+    ),
+    PaymentVariant(
+        label = "По номеру карты",
+        icon = drawable.ic_sbp
+    ),
+    PaymentVariant(
+        label = "По номеру карты",
+        icon = drawable.ic_between_bill
+    )
+)
