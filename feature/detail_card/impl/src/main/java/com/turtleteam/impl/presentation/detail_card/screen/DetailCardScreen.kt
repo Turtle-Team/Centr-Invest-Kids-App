@@ -21,6 +21,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,6 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
+import com.turtleteam.core_view.view.hiddenDate
+import com.turtleteam.core_view.view.hideCardNum
 import com.turtleteam.impl.presentation.detail_card.viewModel.DetailCardViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -49,7 +52,7 @@ fun DetailCardScreen(
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val progress = remember { mutableFloatStateOf(0f) }
-
+    val state = viewModel.state.collectAsState()
     CollapsingToolbarScaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -80,7 +83,7 @@ fun DetailCardScreen(
                     .progress {
                         progress.floatValue = it
                     },
-                name = "Egor Lyadsky"
+                name = "${state.value.user?.user?.firstname} ${state.value.user?.user?.lastname}"
             )
         }
     ) {
@@ -109,7 +112,11 @@ fun DetailCardScreen(
                         .padding(horizontal = 16.dp)
                         .padding(top = 24.dp)
                 ) {
-                    RequisitesView(numberCode = cardId, date = "08/28", code = "412")
+                    RequisitesView(
+                        numberCode = if (state.value.isDetailsShown) cardId else cardId.hideCardNum(),
+                        date = if (state.value.isDetailsShown)state.value.cardDate else hiddenDate(),
+                        code = if (state.value.isDetailsShown)state.value.cardCvc else "•••"
+                    ){viewModel.onShowRequisites()}
                 }
             }
 
@@ -205,7 +212,7 @@ fun LimitView(limitBegin: Int, limitEnd: Int) {
 }
 
 @Composable
-fun RequisitesView(numberCode: String, date: String, code: String) {
+fun RequisitesView(numberCode: String, date: String, code: String, onShow:()->Unit) {
     Card(
         Modifier
             .fillMaxWidth(),
@@ -227,7 +234,7 @@ fun RequisitesView(numberCode: String, date: String, code: String) {
                 fontWeight = FontWeight.SemiBold
             )
 
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = { onShow() }) {
                 Text(
                     text = "Показать",
                     fontSize = 10.sp,

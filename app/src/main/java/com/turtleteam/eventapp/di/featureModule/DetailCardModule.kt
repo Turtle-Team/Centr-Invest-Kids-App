@@ -15,6 +15,6 @@ val detailCardModule = module {
     }
 
     viewModel { params ->
-        DetailCardViewModel(params.get())
+        DetailCardViewModel(params.get(), get())
     }
 }

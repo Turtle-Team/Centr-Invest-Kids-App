@@ -40,6 +40,7 @@ android {
 dependencies {
 
     implementation(project(":feature:home:api"))
+    implementation(project(":feature:settings:api"))
     implementation(project(":feature:detail_card:api"))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
@@ -51,5 +52,7 @@ dependencies {
     implementation(Dependencies.JetpackCompose.activityCompose)
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.navigation)
+    implementation(Dependencies.Data.ktorJson)
     implementation(Dependencies.DI.koin)
+    implementation(project(mapOf("path" to ":feature:account:api")))
 }
