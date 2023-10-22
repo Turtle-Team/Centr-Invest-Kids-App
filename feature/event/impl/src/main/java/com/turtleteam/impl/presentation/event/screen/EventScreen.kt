@@ -298,7 +298,9 @@ fun DailyTaskItem(
     ) {
         Column(Modifier.padding(start = 10.dp, end = 10.dp, top = 20.dp, bottom = 10.dp)) {
             Text(
-                text = title, style = TextStyle(
+                text = title,
+                minLines = 2,
+                style = TextStyle(
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.White

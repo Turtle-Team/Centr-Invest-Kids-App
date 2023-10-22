@@ -72,8 +72,6 @@ fun HomeScreen(
     val state = viewModel.state.collectAsState()
     val pagerState = rememberPagerState { state.value.cards?.size ?: 1 }
 
-    Toast.makeText(LocalContext.current, state.value.cards.toString(), Toast.LENGTH_SHORT).show()
-//fixme
     val paymentVariantList = listOf(
         PaymentVariant(
             label = "По номеру телефона",
@@ -126,7 +124,7 @@ fun HomeScreen(
             .then(modifier)
             .clipToBounds(),
         toolbarModifier = Modifier.background(
-            Color(0xFFFFC01B),
+            Color(0xFFE8F5E9),
             RoundedCornerShape(bottomEnd = 24.dp, bottomStart = 24.dp)
         ),
         state = rememberCollapsingToolbarScaffoldState(),
@@ -179,21 +177,21 @@ fun HomeScreen(
                         .size(35.dp),
                     painter = painterResource(id = drawable.ic_user_circle),
                     contentDescription = "",
-                    tint = Color(0xFF805C00)
+                    tint = Color(0xFFA5D6A7)
                 )
                 Text(
                     modifier = Modifier.padding(start = 10.dp),
-                    text = "Зубенко Михаил",
+                    text = "${state.value.user?.user?.firstname} ${state.value.user?.user?.lastname}",
                     fontSize = 20.sp,
                     fontWeight = FontWeight(600),
-                    color = Color.White
+                    color = Color.Black
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = "1000 ₽",
                     fontSize = 20.sp,
                     fontWeight = FontWeight(600),
-                    color = Color.White
+                    color = Color.Black
                 )
             }
         }) {

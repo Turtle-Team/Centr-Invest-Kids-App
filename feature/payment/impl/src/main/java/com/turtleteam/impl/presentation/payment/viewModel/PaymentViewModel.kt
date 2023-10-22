@@ -38,4 +38,7 @@ class PaymentViewModel(
     fun onClickSelectCategory(text: String) {
         _state.update { it.copy(selectCategory = text) }
     }
+    fun onTransactionClick(){
+        navigator.onBackButtonClick()
+    }
 }

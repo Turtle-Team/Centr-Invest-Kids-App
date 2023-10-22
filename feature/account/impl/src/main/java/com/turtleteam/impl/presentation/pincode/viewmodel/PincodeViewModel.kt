@@ -28,6 +28,7 @@ class PincodeViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             pincode = settings.getPincode()
+            _state.update { it.copy(pincodeIsNull = pincode==null) }
         }
     }
 

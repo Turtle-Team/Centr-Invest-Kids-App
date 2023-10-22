@@ -42,12 +42,13 @@ import kotlin.math.min
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OperationBottomSheet(operation: Operation, showBottomSheet: MutableState<Boolean>) {
+fun OperationBottomSheet(operation: Operation, showBottomSheet: MutableState<Boolean>, onHide:() -> Unit = {}) {
     val sheetState = rememberModalBottomSheetState()
 
     if (showBottomSheet.value) {
         ModalBottomSheet(
             onDismissRequest = {
+                onHide()
                 showBottomSheet.value = false
             },
             sheetState = sheetState

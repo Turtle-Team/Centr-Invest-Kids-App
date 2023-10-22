@@ -19,9 +19,13 @@ import com.turtleteam.core_view.theme.EventAppTheme
 import com.turtleteam.core_view.view.textfields.AssistantTextField
 import com.turtleteam.eventapp.navigation.MainNavigationScreen
 import com.turtleteam.impl.SpeakerService
+import com.turtleteam.impl.navigation.AccountNavigator
+import com.turtleteam.impl.presentation.pincode.PincodeScreen
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
 
@@ -38,7 +42,6 @@ class MainActivity : ComponentActivity() {
             EventAppTheme(isDark.value) {
                 MainNavigationScreen(navController = navController)
             }
-
         }
     }
 

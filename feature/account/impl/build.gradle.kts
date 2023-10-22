@@ -52,6 +52,7 @@ dependencies {
 
     implementation("com.google.guava:guava:32.1.3-jre")
 
+    implementation("me.onebone:toolbar-compose:2.3.5")
     implementation(Dependencies.Data.ktorCore)
     implementation(Dependencies.Data.ktorJson)
     implementation(Dependencies.Android.androidCore)

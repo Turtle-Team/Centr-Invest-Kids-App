@@ -31,7 +31,7 @@ import com.turtleteam.core_view.view.textfields.CustomTextField
 import com.turtleteam.impl.presentation.payment.viewModel.PaymentViewModel
 
 @Composable
-fun SbpLayout(viewModel: PaymentViewModel) {
+fun SbpLayout(viewModel: PaymentViewModel, transactionClick: () -> Unit) {
 
     val state = viewModel.state.collectAsState()
     var expandedBank by remember { mutableStateOf(false) }
@@ -183,7 +183,7 @@ fun SbpLayout(viewModel: PaymentViewModel) {
                     .fillMaxWidth()
                     .padding(top = 36.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF049C6B)),
-                onClick = { /*TODO*/ }
+                onClick = { transactionClick() }
             ) {
                 Text(text = "Перевести", modifier = Modifier.padding(vertical = 10.dp))
             }

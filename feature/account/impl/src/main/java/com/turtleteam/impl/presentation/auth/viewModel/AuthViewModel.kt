@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -52,7 +53,9 @@ class AuthViewModel(
                     settings.setToken(user.token)
                     val userJson = Json.encodeToString(user)
                     settings.setUser(userJson)
-                    errorService.showError(settings.getToken().toString())
+                    withContext(Dispatchers.Main) {
+                        navigator.navigateToPincode()
+                    }
                 },
                 failureBlock = { throwable ->
                     _state.update { it.copy(authLoadingState = LoadingState.Error(throwable.message.toString())) }

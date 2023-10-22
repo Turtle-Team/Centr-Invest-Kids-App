@@ -31,7 +31,7 @@ import com.turtleteam.core_view.view.textfields.CustomTextField
 import com.turtleteam.impl.presentation.payment.viewModel.PaymentViewModel
 
 @Composable
-fun NumberCardLayout(viewModel: PaymentViewModel) {
+fun NumberCardLayout(viewModel: PaymentViewModel, transactionClick: () -> Unit) {
     val state = viewModel.state.collectAsState()
     var expandedBank by remember { mutableStateOf(false) }
     var expandedCategory by remember { mutableStateOf(false) }
@@ -182,7 +182,7 @@ fun NumberCardLayout(viewModel: PaymentViewModel) {
                     .fillMaxWidth()
                     .padding(top = 36.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF049C6B)),
-                onClick = { /*TODO*/ }
+                onClick = { transactionClick()}
             ) {
                 Text(text = "Перевести", modifier = Modifier.padding(vertical = 10.dp))
             }
