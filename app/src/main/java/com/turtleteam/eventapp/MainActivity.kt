@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity() {
             EventAppTheme(isDark.value) {
                 MainNavigationScreen(navController = navController)
             }
+
         }
     }
 

@@ -43,7 +43,9 @@ dependencies {
     implementation(project(":feature:account:api"))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
+    implementation(project(Modules.core_data))
 
+    implementation(Dependencies.Data.ktorCore)
     implementation(Dependencies.Data.ktorJson)
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)

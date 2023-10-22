@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -38,6 +39,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -45,6 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
+import com.turtleteam.impl.presentation.event.screen.components.QuizItem
 import com.turtleteam.impl.presentation.event.viewModel.EventViewModel
 
 
@@ -68,7 +71,6 @@ fun EventScreen(
 ) {
     val state = viewModel.state.collectAsState()
     val screenHeight = LocalConfiguration.current.screenHeightDp
-
     val achievementsList1 = listOf(
         Achievements(
             image = R.drawable.ic_rocket,
@@ -176,6 +178,22 @@ fun EventScreen(
                         }
                     }
                 }
+                Row(
+                    Modifier
+                        .padding(top = 14.dp)
+                ) {
+                    Spacer(modifier = Modifier.padding(end = 16.dp))
+                    repeat(6) {
+                        AchievementsItem(
+                            Modifier
+                                .padding(end = 16.dp),
+                            image = achievementsList1.last().image,
+                            background = achievementsList1.last().background
+                        ) {
+
+                        }
+                    }
+                }
             }
         }
 
@@ -207,8 +225,34 @@ fun EventScreen(
                 }
             }
         }
+        if (state.value.quizIds.isNotEmpty()){
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 20.dp, horizontal = 16.dp),
+                    text = "Квизы",
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        lineHeight = 28.sp,
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF000000),
+                    )
+                )
+            }
+            items(state.value.quizIds) {
+                QuizItem(
+                    modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 12.dp),
+                    progress = 0.6f,
+                    title = it.name
+                ) {
+                    viewModel.onQuizClick(it.quizId)
+                }
+            }
+        }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

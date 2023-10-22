@@ -8,4 +8,11 @@ class EventNavigator (
     private val navController: NavController
 ) {
     private val baseRoute = eventNavigation.baseRoute
+
+    fun navigateTotQuiz(id: Int){
+        navController.navigate(eventNavigation.quizRoute(id))
+    }
+    fun navigateBack(){
+        navController.popBackStack()
+    }
 }
