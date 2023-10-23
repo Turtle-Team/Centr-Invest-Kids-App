@@ -1,6 +1,7 @@
 package com.turtleteam.impl.presentation.payment.screen.layout
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,7 +47,8 @@ fun SbpLayout(viewModel: PaymentViewModel, transactionClick: () -> Unit) {
     LazyColumn(
         Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         item {
             Text(

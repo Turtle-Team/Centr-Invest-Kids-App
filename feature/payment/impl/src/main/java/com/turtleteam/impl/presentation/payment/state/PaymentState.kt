@@ -1,6 +1,8 @@
 package com.turtleteam.impl.presentation.payment.state
 
 data class PaymentState(
+    val requisitesIsHidden: Boolean = false,
+
     val phoneVariantText: String = "",
 
     val sumText: String = "",

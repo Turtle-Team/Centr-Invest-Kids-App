@@ -105,7 +105,7 @@ fun PaymentScreen(paymentType: String, viewModel: PaymentViewModel) {
             PaymentType.BETWEEN_BILL.name -> {
                 BetweenLayout()
             }
+
         }
-        Spacer(modifier = Modifier.size(20.dp))
     }
 }

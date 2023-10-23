@@ -1,8 +1,12 @@
 package com.turtleteam.eventapp.navigation
 
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.Colors
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
@@ -14,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -55,8 +60,9 @@ fun MainNavigationScreen(
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
+    val currentRoute = navBackStackEntry?.destination?.route?.substringBefore("/")
+    val bottomBarColors =
+        currentRoute.bottomNavBarColors(routes = listOf(eventFeature.baseRoute, "quiz"))
     LaunchedEffect(key1 = Unit, block = {
         navController.navigate(if (settings.getToken() == null) accountFeature.baseRoute else accountFeature.pincodeRoute) {
             popUpTo(0) {
@@ -109,7 +115,9 @@ fun MainNavigationScreen(
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
+                indicatorColor = bottomBarColors.second,
+                containerColor = bottomBarColors.first
             )
         },
         snackbarHost = { snackbarHostStatet ->
@@ -136,4 +144,26 @@ fun MainNavigationScreen(
             register(detailCardFeature, navController)
         }
     }
+}
+
+@Composable
+fun String?.bottomNavBarColors(routes: List<String>): Pair<Color, Color> {
+    val green1 = Color(0xFFE8F5E9)
+    val green2 = Color(0xFFA5D6A7)
+    val red1 = Color(0xFFF5DEE0)
+    val red2 = Color(0xFFF19AA2)
+
+    val bottomBarColor = remember { Animatable(green1) }
+    val indicatorColor = remember { Animatable(green2) }
+
+    LaunchedEffect(key1 = this, block = {
+        if (routes.contains(this@bottomNavBarColors)) {
+            launch { indicatorColor.animateTo(targetValue = red2, tween(200)) }
+            launch { bottomBarColor.animateTo(targetValue = red1, tween(200)) }
+        } else {
+            launch { indicatorColor.animateTo(targetValue = green2, tween(200)) }
+            launch { bottomBarColor.animateTo(targetValue = green1, tween(200)) }
+        }
+    })
+    return Pair(bottomBarColor.value, indicatorColor.value)
 }

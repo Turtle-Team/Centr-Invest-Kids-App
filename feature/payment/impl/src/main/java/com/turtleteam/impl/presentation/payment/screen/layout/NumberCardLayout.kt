@@ -1,6 +1,7 @@
 package com.turtleteam.impl.presentation.payment.screen.layout
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -45,7 +46,8 @@ fun NumberCardLayout(viewModel: PaymentViewModel, transactionClick: () -> Unit) 
     LazyColumn(
         Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         item {
             Text(
@@ -182,7 +184,7 @@ fun NumberCardLayout(viewModel: PaymentViewModel, transactionClick: () -> Unit) 
                     .fillMaxWidth()
                     .padding(top = 36.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF049C6B)),
-                onClick = { transactionClick()}
+                onClick = { transactionClick() }
             ) {
                 Text(text = "Перевести", modifier = Modifier.padding(vertical = 10.dp))
             }

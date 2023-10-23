@@ -36,13 +36,15 @@ data class NavigationItem(
 fun BottomNavigationBar(
     currentRoute: String?,
     routes: List<NavigationItem>,
-    onClick: (route: String) -> Unit
+    onClick: (route: String) -> Unit,
+    containerColor: Color = Color(0xFFE8F5E9),
+    indicatorColor: Color = Color(0xFFA5D6A7)
 ) {
     var lastSelectedBtn by rememberSaveable { mutableStateOf(currentRoute) }
 
     NavigationBar(
         modifier = Modifier.zIndex(0.9f),
-        containerColor = Color(0xFFE8F5E9)
+        containerColor = containerColor
     ) {
         routes.forEach { item ->
             NavigationBarItem(
@@ -58,7 +60,7 @@ fun BottomNavigationBar(
                 onClick = {
                     if (routes.map { it.route }.contains(currentRoute)) onClick(item.route)
                 },
-                colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFFA5D6A7)),
+                colors = NavigationBarItemDefaults.colors(indicatorColor = indicatorColor),
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
